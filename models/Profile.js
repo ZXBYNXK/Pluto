@@ -8,7 +8,7 @@ const { Schema, model } = require("mongoose"),
     // This references a objectId from a User Model
     user: {
       type: Schema.Types.ObjectId,
-      ref: "user",
+      ref: "users",
     },
 
     // If user owns a website.
