@@ -14,6 +14,12 @@ const expeirenceValidator = [
   check("company", "Company is required").not().isEmpty(),
   check("from", "From date is required").not().isEmpty(),
 ];
+const educationValidator = [
+  check("school", "School is required").not().isEmpty(),
+  check("degree", "Degree is required").not().isEmpty(),
+  check("from", "From date is required").not().isEmpty(),
+  check("fieldOfStudy", "Field Of Study is required").not().isEmpty(),
+];
 // @route GET api/profiles/me
 // @desc  Get single profile
 // @access Private
@@ -164,9 +170,9 @@ router.put("/experience", [auth, expeirenceValidator], async (req, res) => {
   };
   try {
     let profile = await Profile.findOne({ user: req.user.id });
-    console.log(req.user.id)
+    console.log(req.user.id);
     profile.experience.unshift(newExp);
-    await profile.save()
+    await profile.save();
     return res.json(profile);
   } catch (err) {
     console.error(err.message);
@@ -178,16 +184,74 @@ router.put("/experience", [auth, expeirenceValidator], async (req, res) => {
 // @desc  Delete experirence
 // @access Private
 router.delete("/experience/:exp_id", auth, async (req, res) => {
-    try {
-        let profile = await Profile.findOne({ user: req.user.id });
-        const removeIndex = profile.experience.map(item => item.id).indexOf(req.params.exp_id);
-        profile.experience.splice(removeIndex, 1);
-        await profile.save();
-        return res.json(profile);
-    } catch (err) {
-        console.error(err.message);
-        return res.status(500).status({ msg: "Server Error" });
-    }
-})
+  try {
+    let profile = await Profile.findOne({ user: req.user.id });
+    const removeIndex = profile.experience
+      .map((item) => item.id)
+      .indexOf(req.params.exp_id);
+    profile.experience.splice(removeIndex, 1);
+    await profile.save();
+    return res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).status({ msg: "Server Error" });
+  }
+});
+
+// @route PUT api/profiles/education
+// @desc  Update Experience
+// @access Private
+router.put("/education", [auth, educationValidator], async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  const {
+    school,
+    degree,
+    fieldOfStudy,
+    from,
+    to,
+    current,
+    description,
+  } = req.body;
+  const newEdu = {
+    school,
+    degree,
+    fieldOfStudy,
+    from,
+    to,
+    current,
+    description,
+  };
+  try {
+    let profile = await Profile.findOne({ user: req.user.id });
+    console.log(req.user.id);
+    profile.education.unshift(newEdu);
+    await profile.save();
+    return res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).status({ msg: "Server Error" });
+  }
+});
+
+// @route DELETE api/profiles/education/:edu_id
+// @desc  Delete experirence
+// @access Private
+router.delete("/education/:edu_id", auth, async (req, res) => {
+  try {
+    let profile = await Profile.findOne({ user: req.user.id });
+    const removeIndex = profile.education
+      .map((item) => item.id)
+      .indexOf(req.params.edu_id);
+    profile.education.splice(removeIndex, 1);
+    await profile.save();
+    return res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).status({ msg: "Server Error" });
+  }
+});
 
 module.exports = router;
