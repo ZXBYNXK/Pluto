@@ -26,6 +26,39 @@ router.get("/me", auth, async (req, res) => {
     return res.status(500).json({ msg: "Server Error." });
   }
 });
+// @route GET api/profiles/user/:user_id
+// @desc  Get all profiles
+// @access Public
+router.get("/user/:user_id", async (req, res) => {
+  try {
+    const profile = await Profile.findOne({
+      user: req.params.id,
+    }).populate("user", ["name", "avatar"]);
+    if (!profile) {
+      return res.status(400).json({ msg: "No profile found." });
+    }
+    return res.status(200).json(profile);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind === "ObjectId") {
+      return res.status(400).json({ msg: "No profile found." });
+    }
+    return res.status(500).json({ msg: "Server Error." });
+  }
+});
+// @route GET api/profiles
+// @desc  Get all profiles
+// @access Public
+router.get("/", async (req, res) => {
+  try {
+    const profiles = await Profile.find().populate("user", ["name", "avatar"]);
+    return res.json(profiles);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).json({ msg: "Server Error" });
+  }
+});
+
 // @route GET api/profiles/me
 // @desc  Create or update profile
 // @access Private
@@ -71,7 +104,7 @@ router.post("/", [auth, profileValidator], async (req, res) => {
     let profile = await Profile.findOne({ user: req.user.id });
     // If profile then update
     if (profile) {
-        profile = await Profile.findOneAndUpdate(
+      profile = await Profile.findOneAndUpdate(
         { user: req.user.id },
         { $set: profileFeilds },
         { new: true }
@@ -81,10 +114,11 @@ router.post("/", [auth, profileValidator], async (req, res) => {
     // Create if not found
     profile = new Profile(profileFeilds);
     profile = await Profile.create(profile);
-    return res.json(profile)
+    return res.json(profile);
   } catch (err) {
-      console.error(err.message);
-      return res.status(500).status({msg: "Server Error"})
+    console.error(err.message);
+    return res.status(500).status({ msg: "Server Error" });
   }
 });
+
 module.exports = router;
