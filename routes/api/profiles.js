@@ -9,7 +9,11 @@ const profileValidator = [
   check("status", "Status is required.").not().isEmpty(),
   check("skills", "Skills is required.").not().isEmpty(),
 ];
-
+const expeirenceValidator = [
+  check("title", "Title is required").not().isEmpty(),
+  check("company", "Company is required").not().isEmpty(),
+  check("from", "From date is required").not().isEmpty(),
+];
 // @route GET api/profiles/me
 // @desc  Get single profile
 // @access Private
@@ -134,6 +138,36 @@ router.delete("/", auth, async (req, res) => {
     await User.findOneAndRemove({ _id: req.user.id });
 
     return res.json({ msg: "User Deleted" });
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).status({ msg: "Server Error" });
+  }
+});
+
+// @route PUT api/profiles/experience
+// @desc  Update Experience
+// @access Private
+router.put("/experience", [auth, expeirenceValidator], async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  const { company, title, location, from, to, current, description } = req.body;
+  const newExp = {
+    company,
+    title,
+    location,
+    from,
+    to,
+    current,
+    description,
+  };
+  try {
+    let profile = await Profile.findOne({ user: req.user.id });
+    console.log(req.user.id)
+    profile.experience.unshift(newExp);
+    await profile.save()
+    return res.json(profile);
   } catch (err) {
     console.error(err.message);
     return res.status(500).status({ msg: "Server Error" });
