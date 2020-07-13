@@ -3,6 +3,7 @@ const { Router } = require("express");
 const router = Router();
 const auth = require("../../middleware/auth");
 const Profile = require("../../models/Profile");
+const User = require("../../models/Profile");
 const { validationResult, check } = require("express-validator");
 const profileValidator = [
   check("status", "Status is required.").not().isEmpty(),
@@ -121,4 +122,21 @@ router.post("/", [auth, profileValidator], async (req, res) => {
   }
 });
 
+// @route DELETE api/profiles/me
+// @desc  Delete User profile.
+// @access Private
+router.delete("/", auth, async (req, res) => {
+  try {
+    // Remove Profile
+    await Profile.findOneAndRemove({ user: req.user.id });
+
+    // Remove User
+    await User.findOneAndRemove({ _id: req.user.id });
+
+    return res.json({ msg: "User Deleted" });
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).status({ msg: "Server Error" });
+  }
+});
 module.exports = router;
