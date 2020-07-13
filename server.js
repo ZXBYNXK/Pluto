@@ -14,6 +14,10 @@ const auth = require("./routes/api/auth");
 const profiles = require("./routes/api/profiles");
 const posts = require("./routes/api/posts");
 
+// Needed Middleware
+server.use(express.json());
+
+
 // Routing
 server.get("/", (req, res) => res.status(200).json({ test: true }));
 server.use("/api/users", users);
