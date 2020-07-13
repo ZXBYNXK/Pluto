@@ -173,4 +173,21 @@ router.put("/experience", [auth, expeirenceValidator], async (req, res) => {
     return res.status(500).status({ msg: "Server Error" });
   }
 });
+
+// @route DELETE api/profiles/experience
+// @desc  Delete experirence
+// @access Private
+router.delete("/experience/:exp_id", auth, async (req, res) => {
+    try {
+        let profile = await Profile.findOne({ user: req.user.id });
+        const removeIndex = profile.experience.map(item => item.id).indexOf(req.params.exp_id);
+        profile.experience.splice(removeIndex, 1);
+        await profile.save();
+        return res.json(profile);
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).status({ msg: "Server Error" });
+    }
+})
+
 module.exports = router;
