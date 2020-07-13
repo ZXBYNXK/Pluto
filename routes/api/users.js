@@ -12,6 +12,9 @@ const gravatar = require("gravatar");
 // Bcryptjs
 const bcrypt = require("bcryptjs");
 
+// Jwt
+const jwt = require("jsonwebtoken");
+const { jwtSec } = require("../../config");
 // Express Validator
 const { check, validationResult } = require("express-validator");
 
@@ -37,7 +40,9 @@ router.post("/", userValidator, async (req, res) => {
     // See if user exists
     let user = await User.findOne({ email });
     if (user) {
-      return res.status(400).json({ errors: [{ msg: "User Allready Exists" }] });
+      return res
+        .status(400)
+        .json({ errors: [{ msg: "User Allready Exists" }] });
     }
 
     // Get users gravatar.
@@ -49,19 +54,25 @@ router.post("/", userValidator, async (req, res) => {
 
     // Encrypt password with bcrypt
     user = new User({
-        name, 
-        email,
-        avatar,
-        password
+      name,
+      email,
+      avatar,
+      password,
     });
 
     const salt = await bcrypt.genSalt(10);
 
     user.password = await bcrypt.hash(password, salt);
-    
-    const newUser = await User.create(user);
 
-    return res.status(201).json(newUser)
+    await User.create(user);
+
+    const payload = {
+      id: user.id,
+    };
+    jwt.sign(payload, jwtSec, { expiresIn: 36000 }, (err, token) => {
+        if (err) throw err;
+        return res.status(200).json(token);
+    });
     // Return jsonwebtoken
   } catch (err) {
     console.error(err);
