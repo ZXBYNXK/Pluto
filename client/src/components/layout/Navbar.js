@@ -5,7 +5,7 @@ const Navbar = () => {
     <nav className="navbar bg-dark">
       <h1>
         <Link to="index.html">
-        <i class="fas fa-frog"></i> Pluto 
+        <i className="fas fa-frog"></i> Pluto 
         </Link>
       </h1>
 

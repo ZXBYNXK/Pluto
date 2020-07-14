@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, combineReducers } from "redux";
 import { createLogger } from "redux-logger";
 import thunk from "redux-thunk";
 import { default as alerts } from "./modules/alert";
-
+import { default as auth } from "./modules/auth";
 // Imported Reducers to be combined
 const loggerMiddleware = createLogger();
 
@@ -13,6 +13,7 @@ const createStoreWithMiddleware = applyMiddleware(
 
 const reducer = combineReducers({
   alerts,
+  auth,
 });
 
 const store = (initialState) =>
