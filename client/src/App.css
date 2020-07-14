@@ -2,7 +2,7 @@
 
 :root {
 
-  --primary-color: #17a2b8;
+  --primary-color: #5441ff;
 
   --dark-color: #343a40;
 
@@ -324,7 +324,7 @@ img {
 
   background: var(--primary-color);
 
-  color: #fff;
+  color: #38a1f3;
 
 }
 
@@ -668,7 +668,7 @@ button {
 
   position: relative;
 
-  background: url('/img/showcase.jpg') no-repeat center center/cover;
+  background: url('./img/showcase.png') no-repeat center center/cover;
 
   height: 100vh;
 

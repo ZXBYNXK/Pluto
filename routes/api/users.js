@@ -60,20 +60,26 @@ router.post("/", userValidator, async (req, res) => {
       password,
     });
 
+    // Generate random string to add to hash for security reasons.
     const salt = await bcrypt.genSalt(10);
 
+    // Hash the password and assign it to the user object.
     user.password = await bcrypt.hash(password, salt);
 
+    // User document created and added to Users collection.
     await User.create(user);
 
+    // Create payload to be tokenized.
     const payload = {
       id: user.id,
     };
+
+    // Tokenize payload
     jwt.sign(payload, jwtSec, { expiresIn: 36000 }, (err, token) => {
-        if (err) throw err;
-        return res.status(200).json(token);
+      if (err) throw err;
+      // Return jsonwebtoken
+      return res.status(200).json(token);
     });
-    // Return jsonwebtoken
   } catch (err) {
     console.error(err);
     return res
