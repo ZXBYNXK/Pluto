@@ -11,6 +11,7 @@ const { jwtSec } = require("../../config");
 
 // Express Validator
 const { check, validationResult } = require("express-validator");
+
 const userValidator = [
   check("email", "Email is required.").isEmail(),
   check("password", "Passoword is should be more than 6 charachters.").exists(),

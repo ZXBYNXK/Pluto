@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js"
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Darius Rain",
   "license": "MIT",
@@ -21,6 +23,8 @@
     "gravatar": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.23",
-    "request": "^2.88.2"
+    "redux-logger": "^3.0.6",
+    "request": "^2.88.2",
+    "uuid": "^8.2.0"
   }
 }
