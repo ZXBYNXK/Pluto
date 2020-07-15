@@ -2,12 +2,11 @@
 
 // Modules
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect}  from "react-router-dom";
 import { connect } from "react-redux";
 import { login } from "../../redux/modules/auth";
-
 // Component
-const Login = ({ login, loading }) => {
+const Login = ({ login, loading, isAuthenticated }) => {
   // State with useState hook.
   const [formData, setFormData] = useState({
     email: "",
@@ -24,6 +23,9 @@ const Login = ({ login, loading }) => {
     login(formData);
   };
 
+  if (isAuthenticated) {
+    return <Redirect to="/dashboard" />
+  }
   // JSX
   return !loading ? (
     <section className="container card">
@@ -52,7 +54,7 @@ const Login = ({ login, loading }) => {
             onChange={(e) => onChange(e)}
             minLength="6"
           />
-          <button className="btn primary p1 large">Submit</button>
+          <button className="btn-success p1">Submit</button>
         </div>
       </form>
       <p className="my-1">
@@ -66,5 +68,5 @@ const Login = ({ login, loading }) => {
     <i class="fas fa-spinner"></i>
   );
 };
-const mapStateToProps = ({ loading }) => ({ loading });
+const mapStateToProps = ({ auth }) => ({ loading: auth.loading, isAuthenticated: auth.isAuthenticated });
 export default connect(mapStateToProps, { login })(Login);

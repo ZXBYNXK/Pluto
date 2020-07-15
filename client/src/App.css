@@ -17,7 +17,7 @@
 
 body {
 
-  font-family: 'Raleway', sans-serif;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 
   font-size: 1rem;
 
@@ -287,17 +287,15 @@ img {
 
 
 .alert {
-
-  padding: 0.8rem;
-
-  margin: 1rem 0;
-
-  opacity: 0.9;
-
-  background: #f4f4f4;
-
-  color: #333;
-
+  text-align: center;
+  color: #000000;
+  position: absolute;
+  border: .1rem solid;
+  border-radius: 3rem;
+  border-top-left-radius: 0;
+  font-weight: 800;
+  padding: 1rem;
+  margin: 0 auto;
 }
 
 
@@ -312,7 +310,7 @@ img {
 
   background: #5441ff;
 
-  color: #38a1f3;
+  color: #000000;
 
 }
 
