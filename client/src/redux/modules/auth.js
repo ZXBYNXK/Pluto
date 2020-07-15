@@ -1,8 +1,10 @@
 import axios from "axios";
+import setAuthToken from "../../utils/setAuthToken";
 import { setAlert } from "./alert";
-import { connect } from "mongoose";
 export const REGISTER_SUCCESS = "APP/AUTH/REGISTER_SUCCESS";
 export const REGISTER_FAIL = "APP/AUTH/REGISTER_FAIL";
+export const USER_LOADED = "APP/AUTH/USER_LOADED";
+export const AUTH_ERROR = "APP/AUTH/ERROR";
 
 const initialState = {
   token: localStorage.getItem("token"),
@@ -13,8 +15,12 @@ const initialState = {
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {
+    case USER_LOADED:
+      return {
+        ...state,
+        isAuthenticated: true,
+      };
     case REGISTER_SUCCESS:
-        console.log(12, payload)
       localStorage.setItem("token", payload);
       return {
         ...state,
@@ -22,6 +28,7 @@ export default (state = initialState, { type, payload }) => {
         isAuthenticated: true,
         loading: false,
       };
+    case AUTH_ERROR:
     case REGISTER_FAIL:
       localStorage.removeItem("token");
       return {
@@ -35,8 +42,8 @@ export default (state = initialState, { type, payload }) => {
   }
 };
 
-export const register = ({email, name, password}) => async (dispatch) => {
-  const body = JSON.stringify({email, name, password});
+export const register = ({ email, name, password }) => async (dispatch) => {
+  const body = JSON.stringify({ email, name, password });
   const config = {
     headers: {
       "Content-Type": "Application/json",
@@ -53,6 +60,23 @@ export const register = ({email, name, password}) => async (dispatch) => {
     if (errors) errors.forEach(({ msg }) => dispatch(setAlert(msg, "danger")));
     dispatch({
       type: REGISTER_FAIL,
+    });
+  }
+};
+
+export const loadUser = () => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+  try {
+    const res = await axios.get("/api/auth");
+    dispatch({
+      type: USER_LOADED,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
     });
   }
 };
