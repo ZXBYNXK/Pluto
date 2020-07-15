@@ -1,9 +1,13 @@
+// REDUCER FILE
+
+// - Modules 
 import { v4 as generateId } from "uuid";
 
-// Alert Reducer
+// - Action Types 
 export const SET_ALERT = "APP/SET_ALERT";
 export const REMOVE_ALERT = "APP/REMOVE_ALERT";
 
+// - Reducer
 const initialState = [];
 export default (state = initialState, { type, payload }) => {
   switch (type) {
@@ -16,11 +20,12 @@ export default (state = initialState, { type, payload }) => {
   }
 };
 
+// - Action Creators
 export const setAlert = (msg, alertType) => (dispatch) => {
   const id = generateId();
   dispatch({
     type: SET_ALERT,
     payload: { msg, alertType, id },
   });
-  setTimeout(() => dispatch({ type: REMOVE_ALERT, payload: id }), 1000);
+  setTimeout(() => dispatch({ type: REMOVE_ALERT, payload: id }), 3000);
 };
