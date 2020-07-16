@@ -15,19 +15,17 @@ import Alert from "./components/layout/Alert";
 import Dasboard from "./components/dashboard/Dashboard"
 import PrivateRoute from "./components/routing/PrivateRoute"
 
+// Helper funcs
+import setAuthToken from "./utils/setAuthToken";
+
 // Redux
 import { loadUser } from "./redux/modules/auth";
 import createStore from "./redux";
 const store = createStore();
 
-// Helper funcs
-// import setAuthToken from "./utils/setAuthToken";
-
-// Action creators
-
-// if (localStorage.token) {
-//   setAuthToken(localStorage.token);
-// }
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
 
 const App = () => {
   // React Hook

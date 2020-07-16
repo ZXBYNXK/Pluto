@@ -20,7 +20,7 @@ const Login = ({ login, loading, isAuthenticated }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    login(formData);
+    login(email, password);
   };
 
   if (isAuthenticated) {
@@ -65,8 +65,8 @@ const Login = ({ login, loading, isAuthenticated }) => {
       </p>
     </section>
   ) : (
-    <i class="fas fa-spinner"></i>
+    <i style={{fontSize: "6rem"}} className="fas fa-spinner"></i>
   );
 };
-const mapStateToProps = ({ auth }) => ({ loading: auth.loading, isAuthenticated: auth.isAuthenticated });
-export default connect(mapStateToProps, { login })(Login);
+const mstp = ({ auth }) => ({ loading: auth.loading, isAuthenticated: auth.isAuthenticated });
+export default connect(mstp, { login })(Login);

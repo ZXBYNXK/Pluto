@@ -72,7 +72,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// @route GET api/profiles/me
+// @route POST api/profiles
 // @desc  Create or update profile
 // @access Private
 router.post("/", [auth, profileValidator], async (req, res) => {
