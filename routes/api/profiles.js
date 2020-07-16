@@ -228,7 +228,7 @@ router.put("/education", [auth, educationValidator], async (req, res) => {
   };
   try {
     let profile = await Profile.findOne({ user: req.user.id });
-    console.log(req.user.id);
+    console.log(profile);
     profile.education.unshift(newEdu);
     await profile.save();
     return res.json(profile);
