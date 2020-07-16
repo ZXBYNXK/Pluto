@@ -14,6 +14,7 @@ export const LOGIN_SUCCESS = "APP/AUTH/LOGIN_SUCCESS";
 export const LOGIN_FAIL = "APP/AUTH/LOGIN_FAIL";
 export const USER_LOADED = "APP/AUTH/USER_LOADED";
 export const AUTH_ERROR = "APP/AUTH/ERROR";
+export const LOGOUT = "APP/AUTH/LOGOUT";
 
 // Reducer
 const initialState = {
@@ -42,6 +43,7 @@ export default (state = initialState, { type, payload }) => {
     case AUTH_ERROR:
     case LOGIN_FAIL:
     case REGISTER_FAIL:
+    case LOGOUT:
       localStorage.removeItem("token");
       return {
         ...state,
@@ -53,7 +55,6 @@ export default (state = initialState, { type, payload }) => {
       return state;
   }
 };
-
 
 // - Action creators
 export const register = ({ email, name, password }) => async (dispatch) => {
@@ -105,9 +106,10 @@ export const login = ({ email, password }) => async (dispatch) => {
     dispatch({
       type: LOGIN_FAIL,
     });
-
   }
 };
+
+export const logout = () => (dispatch) => dispatch({ type: LOGOUT });
 
 export const loadUser = () => async (dispatch) => {
   if (localStorage.token) {
