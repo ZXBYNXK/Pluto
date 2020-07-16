@@ -1,18 +1,5 @@
 * Global Styles */
 
-:root {
-
-  --primary-color: #5441ff;
-
-  --dark-color: #343a40;
-
-  --light-color: #f4f4f4;
-
-  --danger-color: #dc3545;
-
-  --success-color: #28a745;
-
-}
 
 
 
@@ -30,7 +17,7 @@
 
 body {
 
-  font-family: 'Raleway', sans-serif;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 
   font-size: 1rem;
 
@@ -39,6 +26,7 @@ body {
   background-color: #fff;
 
   color: #333;
+  margin: 0;
 
 }
 
@@ -46,7 +34,7 @@ body {
 
 a {
 
-  color: var(--primary-color);
+  color: #5441ff;
 
   text-decoration: none;
 
@@ -136,7 +124,7 @@ img {
 
 .text-primary {
 
-  color: var(--primary-color);
+  color: #5441ff;
 
 }
 
@@ -144,7 +132,7 @@ img {
 
 .text-dark {
 
-  color: var(--dark-color);
+  color: #343a40;
 
 }
 
@@ -257,8 +245,9 @@ img {
 .btn {
 
   display: inline-block;
+  cursor: pointer;
 
-  background: var(--light-color);
+  background: #f4f4f4;
 
   color: #333;
 
@@ -290,7 +279,7 @@ img {
 
   margin: 0.3rem;
 
-  background: var(--light-color);
+  background: #f4f4f4;
 
   color: #333;
 
@@ -299,17 +288,16 @@ img {
 
 
 .alert {
-
-  padding: 0.8rem;
-
-  margin: 1rem 0;
-
-  opacity: 0.9;
-
-  background: var(--light-color);
-
-  color: #333;
-
+  text-align: center;
+  color: #000000;
+  border: .1rem solid;
+  border-radius: 2rem;
+  border-top-left-radius: 0;
+  font-size:1rem;
+  height: 1rem;
+  padding: 0.5rem;
+  margin-top: 1.6rem;
+  z-index: 1;
 }
 
 
@@ -322,9 +310,9 @@ img {
 
 .alert-primary {
 
-  background: var(--primary-color);
+  background: #5441ff;
 
-  color: #38a1f3;
+  color: #000000;
 
 }
 
@@ -338,7 +326,7 @@ img {
 
 .alert-light {
 
-  background: var(--light-color);
+  background: #f4f4f4;
 
   color: #333;
 
@@ -354,9 +342,9 @@ img {
 
 .alert-dark {
 
-  background: var(--dark-color);
+  background-color: #3b5998;
 
-  color: #fff;
+  color: #333;
 
 }
 
@@ -370,7 +358,7 @@ img {
 
 .alert-danger {
 
-  background: var(--danger-color);
+  background: #dc3545;
 
   color: #fff;
 
@@ -386,7 +374,7 @@ img {
 
 .alert-success {
 
-  background: var(--success-color);
+  background: #4dffb5;
 
   color: #fff;
 
@@ -592,7 +580,7 @@ button {
 
 .table th {
 
-  background: var(--light-color);
+  background: #f4f4f4;
 
 }
 
@@ -608,7 +596,6 @@ button {
 
   align-items: center;
 
-  padding: 0.7rem 2rem;
 
   position: fixed;
 
@@ -618,9 +605,8 @@ button {
 
   top: 0;
 
-  border-bottom: solid 1px var(--primary-color);
+  border-bottom: solid 1px #5441ff;
 
-  opacity: 0.9;
 
 }
 
@@ -648,7 +634,7 @@ button {
 
 .navbar a:hover {
 
-  color: var(--primary-color);
+  color: #4dffb5
 
 }
 
@@ -674,7 +660,19 @@ button {
 
 }
 
-
+.card {
+  border-radius: .4rem;
+  background-color: #3b5998;
+}
+.card * {
+  color: #fff;
+}
+card p:hover {
+  color: gray;
+}
+.card input {
+  color: black;
+}
 
 .landing-inner {
 
@@ -720,7 +718,9 @@ button {
 
 }
 
-
+.hover:hover {
+  color: #4dffb5;
+}
 
 /* Profile Page */
 
@@ -782,7 +782,7 @@ button {
 
 .profile-top .icons a:hover {
 
-  color: var(--dark-color);
+  color: #343a40;
 
 }
 
@@ -912,7 +912,7 @@ button {
 
 .post-form .post-form-header {
 
-  background: var(--primary-color);
+  background: #5441ff;
 
   padding: 0.5rem;
 
@@ -952,9 +952,9 @@ button {
 
 .post .comment-count {
 
-  background: var(--light-color);
+  background: #f4f4f4;
 
-  color: var(--primary-color);
+  color: #5441ff;
 
   padding: 0.1rem 0.2rem;
 
