@@ -72,7 +72,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// @route GET api/profiles/me
+// @route POST api/profiles
 // @desc  Create or update profile
 // @access Private
 router.post("/", [auth, profileValidator], async (req, res) => {
@@ -126,7 +126,7 @@ router.post("/", [auth, profileValidator], async (req, res) => {
     }
     // Create if not found
     profile = new Profile(profileFeilds);
-    profile = await Profile.create(profile);
+    await Profile.create(profile);
     return res.json(profile);
   } catch (err) {
     console.error(err.message);
@@ -228,7 +228,7 @@ router.put("/education", [auth, educationValidator], async (req, res) => {
   };
   try {
     let profile = await Profile.findOne({ user: req.user.id });
-    console.log(req.user.id);
+    console.log(profile);
     profile.education.unshift(newEdu);
     await profile.save();
     return res.json(profile);

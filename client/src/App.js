@@ -12,20 +12,23 @@ import Landing from "./components/layout/Landing";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import Alert from "./components/layout/Alert";
+import Dasboard from "./components/dashboard/Dashboard"
+import PrivateRoute from "./components/routing/PrivateRoute"
+import CreateProfile from "./components/profile-forms/CreateProfile"
+import EditProfile from "./components/profile-forms/EditProfile"
+// Helper funcs
+import setAuthToken from "./utils/setAuthToken";
 
-import { loadUser } from "./redux/modules/auth";
 // Redux
+import { loadUser } from "./redux/modules/auth";
 import createStore from "./redux";
+import AddExperience from "./components/profile-forms/AddExperience";
+import AddEducation from "./components/profile-forms/AddEducation";
 const store = createStore();
 
-// Helper funcs
-// import setAuthToken from "./utils/setAuthToken";
-
-// Action creators
-
-// if (localStorage.token) {
-//   setAuthToken(localStorage.token);
-// }
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
 
 const App = () => {
   // React Hook
@@ -43,7 +46,11 @@ const App = () => {
           <section className="container">
             <Alert />
             <Switch>
-              <Route exact path="/dashboard" />
+              <PrivateRoute exact path="/dashboard" component={Dasboard}/>
+              <PrivateRoute exact path="/create-profile" component={CreateProfile} />
+              <PrivateRoute exact path="/edit-profile" component={EditProfile} />
+              <PrivateRoute exact path="/add-experience" component={AddExperience} />
+              <PrivateRoute exact path="/add-education" component={AddEducation} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
             </Switch>

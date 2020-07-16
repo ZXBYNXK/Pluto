@@ -4,8 +4,8 @@
 import { v4 as generateId } from "uuid";
 
 // - Action Types 
-export const SET_ALERT = "APP/SET_ALERT";
-export const REMOVE_ALERT = "APP/REMOVE_ALERT";
+export const SET_ALERT = "PLUTO/ALERT/SET_ALERT";
+export const REMOVE_ALERT = "PLUTO/ALERT/REMOVE_ALERT";
 
 // - Reducer
 const initialState = [];

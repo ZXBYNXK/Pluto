@@ -8,14 +8,14 @@ import setAuthToken from "../../utils/setAuthToken";
 import { setAlert } from "./alert";
 
 // Action Types
-export const REGISTER_SUCCESS = "APP/AUTH/REGISTER_SUCCESS";
-export const REGISTER_FAIL = "APP/AUTH/REGISTER_FAIL";
-export const LOGIN_SUCCESS = "APP/AUTH/LOGIN_SUCCESS";
-export const LOGIN_FAIL = "APP/AUTH/LOGIN_FAIL";
-export const USER_LOADED = "APP/AUTH/USER_LOADED";
-export const AUTH_ERROR = "APP/AUTH/ERROR";
-export const LOGOUT = "APP/AUTH/LOGOUT";
-
+import { CLEAR_PROFILE } from "./profile";
+export const REGISTER_SUCCESS = "PLUTO/AUTH/REGISTER_SUCCESS";
+export const REGISTER_FAIL = "PLUTO/AUTH/REGISTER_FAIL";
+export const LOGIN_SUCCESS = "PLUTO/AUTH/LOGIN_SUCCESS";
+export const LOGIN_FAIL = "PLUTO/AUTH/LOGIN_FAIL";
+export const USER_LOADED = "PLUTO/AUTH/USER_LOADED";
+export const AUTH_ERROR = "PLUTO/AUTH/ERROR";
+export const LOGOUT = "PLUTO/AUTH/LOGOUT";
 // Reducer
 const initialState = {
   token: localStorage.getItem("token"),
@@ -30,6 +30,8 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         isAuthenticated: true,
+        loading: false,
+        user: payload,
       };
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
@@ -44,12 +46,13 @@ export default (state = initialState, { type, payload }) => {
     case LOGIN_FAIL:
     case REGISTER_FAIL:
     case LOGOUT:
-      localStorage.removeItem("token");
+      localStorage.removeItem("token")
       return {
         ...state,
         token: null,
         isAuthenticated: false,
         loading: false,
+        user: null
       };
     default:
       return state;
@@ -61,7 +64,7 @@ export const register = ({ email, name, password }) => async (dispatch) => {
   const body = JSON.stringify({ email, name, password });
   const config = {
     headers: {
-      "Content-Type": "Application/json",
+      "Content-Type": "application/json",
     },
   };
   try {
@@ -83,11 +86,11 @@ export const register = ({ email, name, password }) => async (dispatch) => {
   }
 };
 
-export const login = ({ email, password }) => async (dispatch) => {
+export const login = (email, password) => async (dispatch) => {
   const body = JSON.stringify({ email, password });
   const config = {
     headers: {
-      "Content-Type": "Application/json",
+      "Content-Type": "application/json",
     },
   };
   try {
@@ -109,14 +112,17 @@ export const login = ({ email, password }) => async (dispatch) => {
   }
 };
 
-export const logout = () => (dispatch) => dispatch({ type: LOGOUT });
-
+export const logout = () => (dispatch) => {
+  dispatch({ type: CLEAR_PROFILE });
+  dispatch({ type: LOGOUT });
+};
 export const loadUser = () => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
   try {
     const res = await axios.get("/api/auth");
+    console.log(1, res.data);
     dispatch({
       type: USER_LOADED,
       payload: res.data,

@@ -1,7 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom";
-const Landing = () => (
-  <section className="landing">
+import { Link, Redirect } from "react-router-dom";
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
+const Landing = ({isAuthenticated}) => {
+  if (isAuthenticated){
+    return (<Redirect to="/dashboard" />)
+  }
+  
+  return (<section className="landing">
     <div className="dark-overlay">
       <div className="landing-inner">
         <h1 className="x-large">Pluto will help you share your professional experience!</h1>
@@ -20,6 +26,11 @@ const Landing = () => (
         </div>
       </div>
     </div>
-  </section>
-);
-export default Landing;
+  </section>)
+
+};
+Landing.prototypes = {
+  isAuthenticated: PropTypes.bool.isRequired
+}
+const mstp = state => ({isAuthenticated: state.auth.isAuthenticated})
+export default connect(mstp)(Landing);
