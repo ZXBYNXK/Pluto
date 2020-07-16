@@ -1,11 +1,12 @@
 import React, { useEffect, Fragment } from "react";
+import DashBoardActions from "./DashBoardActions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getCurrentProfile } from "../../redux/modules/profile";
 import Spinner from "../layout/Spinner";
 import { Link } from "react-router-dom";
 const Dashboard = ({
-  auth: {user},
+  auth: { user },
   getCurrentProfile,
   profile: { profile, loading },
 }) => {
@@ -21,7 +22,15 @@ const Dashboard = ({
         <i className="fas fa-user"></i>
         Welecome {user && user.name}
       </p>
-      {profile !== null ? <Fragment>Has</Fragment> : <Fragment>Please create a profile <Link to="/create-profile">here</Link></Fragment>}
+      {profile !== null ? (
+        <Fragment>
+          <DashBoardActions />
+        </Fragment>
+      ) : (
+        <Fragment>
+          Please create a profile <Link to="/create-profile">here</Link>
+        </Fragment>
+      )}
     </Fragment>
   );
 };

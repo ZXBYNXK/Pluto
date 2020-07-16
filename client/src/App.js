@@ -15,6 +15,7 @@ import Alert from "./components/layout/Alert";
 import Dasboard from "./components/dashboard/Dashboard"
 import PrivateRoute from "./components/routing/PrivateRoute"
 import CreateProfile from "./components/profile-forms/CreateProfile"
+import EditProfile from "./components/profile-forms/EditProfile"
 // Helper funcs
 import setAuthToken from "./utils/setAuthToken";
 
@@ -45,6 +46,7 @@ const App = () => {
             <Switch>
               <PrivateRoute exact path="/dashboard" component={Dasboard}/>
               <PrivateRoute exact path="/create-profile" component={CreateProfile} />
+              <PrivateRoute exact path="/edit-profile" component={EditProfile} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
             </Switch>
