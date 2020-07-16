@@ -12,9 +12,11 @@ import Landing from "./components/layout/Landing";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import Alert from "./components/layout/Alert";
+import Dasboard from "./components/dashboard/Dashboard"
+import PrivateRoute from "./components/routing/PrivateRoute"
 
-import { loadUser } from "./redux/modules/auth";
 // Redux
+import { loadUser } from "./redux/modules/auth";
 import createStore from "./redux";
 const store = createStore();
 
@@ -43,7 +45,7 @@ const App = () => {
           <section className="container">
             <Alert />
             <Switch>
-              <Route exact path="/dashboard" />
+              <PrivateRoute exact path="/dashboard" component={Dasboard}/>
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
             </Switch>
