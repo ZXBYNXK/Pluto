@@ -1,6 +1,4 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import React from "react";
 import { Link } from "react-router-dom";
 
 export const DashBoardActions = () => {
@@ -21,12 +19,4 @@ export const DashBoardActions = () => {
   );
 };
 
-DashBoardActions.propTypes = {
-  prop: PropTypes,
-};
-
-const mapStateToProps = (state) => ({});
-
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(DashBoardActions);
+export default DashBoardActions;

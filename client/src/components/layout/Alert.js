@@ -8,7 +8,6 @@ const Alert = ({ alerts }) => (
       alerts.length > 0 &&
       alerts.map(({ id, type, msg }) => (
         <Fragment>
-          <i style={{ fontSize: "3rem" }} className="fas fa-frog"></i>
           <div key={id} className={`alert alert-type${type}`}>
             {msg}
           </div>

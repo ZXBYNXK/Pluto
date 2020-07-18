@@ -29,7 +29,7 @@ const Landing = ({isAuthenticated}) => {
   </section>)
 
 };
-Landing.prototypes = {
+Landing.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired
 }
 const mstp = state => ({isAuthenticated: state.auth.isAuthenticated})
