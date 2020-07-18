@@ -16,6 +16,7 @@ export const LOGIN_FAIL = "PLUTO/AUTH/LOGIN_FAIL";
 export const USER_LOADED = "PLUTO/AUTH/USER_LOADED";
 export const AUTH_ERROR = "PLUTO/AUTH/ERROR";
 export const LOGOUT = "PLUTO/AUTH/LOGOUT";
+
 // Reducer
 const initialState = {
   token: localStorage.getItem("token"),
@@ -27,6 +28,7 @@ const initialState = {
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case USER_LOADED:
+      console.log("User loaded: { User : ", payload, "}")
       return {
         ...state,
         isAuthenticated: true,
@@ -36,6 +38,7 @@ export default (state = initialState, { type, payload }) => {
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
       localStorage.setItem("token", payload);
+      console.log("Register Sucess: { Token : ", payload, "}")
       return {
         ...state,
         token: payload,
@@ -46,7 +49,8 @@ export default (state = initialState, { type, payload }) => {
     case LOGIN_FAIL:
     case REGISTER_FAIL:
     case LOGOUT:
-      localStorage.removeItem("token")
+      localStorage.removeItem("token");
+            console.log("Logouy: { LocalStorage : { Token: ", payload, "} }");
       return {
         ...state,
         token: null,
@@ -99,10 +103,9 @@ export const login = (email, password) => async (dispatch) => {
       type: LOGIN_SUCCESS,
       payload: res.data,
     });
-    dispatch({
-      type: USER_LOADED,
-      payload: res.data,
-    });
+    // @bug Attempting to fix token not being set to global headers.
+    setAuthToken(res.data)
+    dispatch(loadUser())
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) errors.forEach(({ msg }) => dispatch(setAlert(msg, "danger")));
@@ -115,14 +118,16 @@ export const login = (email, password) => async (dispatch) => {
 export const logout = () => (dispatch) => {
   dispatch({ type: CLEAR_PROFILE });
   dispatch({ type: LOGOUT });
+  setAuthToken(false);
 };
+
 export const loadUser = () => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
   try {
     const res = await axios.get("/api/auth");
-    console.log(1, res.data);
+    console.log("Loaduser() { res:", res.data, "}");
     dispatch({
       type: USER_LOADED,
       payload: res.data,

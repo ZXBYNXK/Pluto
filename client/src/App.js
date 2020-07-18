@@ -41,11 +41,11 @@ const App = () => {
     <Provider store={store}>
       <Router>
         <Fragment>
-          <Route exact path="/" component={Landing} />
           <Navbar />
           <section className="container">
             <Alert />
             <Switch>
+              <Route exact path="/" component={Landing} />
               <PrivateRoute exact path="/dashboard" component={Dasboard}/>
               <PrivateRoute exact path="/create-profile" component={CreateProfile} />
               <PrivateRoute exact path="/edit-profile" component={EditProfile} />

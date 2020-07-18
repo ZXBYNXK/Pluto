@@ -126,7 +126,7 @@ router.post("/", [auth, profileValidator], async (req, res) => {
     }
     // Create if not found
     profile = new Profile(profileFeilds);
-    await Profile.create(profile);
+    await profile.save();
     return res.json(profile);
   } catch (err) {
     console.error(err.message);

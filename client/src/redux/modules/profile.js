@@ -10,7 +10,7 @@ import { setAlert } from "./alert";
 export const GET_PROFILE = "PLUTO/PROFILES/GET_PROFILE";
 export const PROFILE_ERROR = "PLUTO/PROFILES/PROFILE_ERROR";
 export const CLEAR_PROFILE = "PLUTO/PROFILES/CLEAR_PROFILE";
-export const UPDATE_PROFILE = "PLUTO/PROFILES/UPDATE_PROFILE"
+export const UPDATE_PROFILE = "PLUTO/PROFILES/UPDATE_PROFILE";
 
 // Reducer
 const initialState = {
@@ -20,6 +20,7 @@ const initialState = {
   loading: true,
   error: {},
 };
+
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case CLEAR_PROFILE:
@@ -79,7 +80,7 @@ export const createProfile = (formData, history, edit = false) => async (
     });
     dispatch(setAlert(edit ? "Profile Updated" : "Profile Created"));
     if (!edit) {
-      history.push('/dashboard');
+      history.push("/dashboard");
     }
   } catch (err) {
     const errors = err.response.data.errors;
@@ -103,10 +104,9 @@ export const addExperience = (formData, history) => async (dispatch) => {
       type: UPDATE_PROFILE,
       payload: res.data,
     });
-    dispatch(setAlert('Expeirence added', 'success'));
-    
-      history.push('/dashboard');
-    
+    dispatch(setAlert("Expeirence added", "success"));
+
+    history.push("/dashboard");
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) errors.forEach(({ msg }) => dispatch(setAlert(msg, "danger")));
@@ -115,7 +115,7 @@ export const addExperience = (formData, history) => async (dispatch) => {
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
-}
+};
 
 export const addEducation = (formData, history) => async (dispatch) => {
   try {
@@ -129,10 +129,8 @@ export const addEducation = (formData, history) => async (dispatch) => {
       type: UPDATE_PROFILE,
       payload: res.data,
     });
-    dispatch(setAlert('Education added', 'success'));
-    
-      history.push('/dashboard');
-    
+    dispatch(setAlert("Education added", "success"));
+    history.push("/dashboard");
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) errors.forEach(({ msg }) => dispatch(setAlert(msg, "danger")));
@@ -141,4 +139,4 @@ export const addEducation = (formData, history) => async (dispatch) => {
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
-}
+};
