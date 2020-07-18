@@ -28,6 +28,7 @@ const initialState = {
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case USER_LOADED:
+      console.log("User loaded: { User : ", payload, "}")
       return {
         ...state,
         isAuthenticated: true,
@@ -37,6 +38,7 @@ export default (state = initialState, { type, payload }) => {
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
       localStorage.setItem("token", payload);
+      console.log("Register Sucess: { Token : ", payload, "}")
       return {
         ...state,
         token: payload,
@@ -47,7 +49,8 @@ export default (state = initialState, { type, payload }) => {
     case LOGIN_FAIL:
     case REGISTER_FAIL:
     case LOGOUT:
-      localStorage.removeItem("token")
+      localStorage.removeItem("token");
+            console.log("Logouy: { LocalStorage : { Token: ", payload, "} }");
       return {
         ...state,
         token: null,
@@ -101,6 +104,7 @@ export const login = (email, password) => async (dispatch) => {
       payload: res.data,
     });
     setAuthToken(res.data)
+    dispatch(loadUser())
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) errors.forEach(({ msg }) => dispatch(setAlert(msg, "danger")));
@@ -118,12 +122,11 @@ export const logout = () => (dispatch) => {
 
 export const loadUser = () => async (dispatch) => {
   if (localStorage.token) {
-    console.log(12)
     setAuthToken(localStorage.token);
   }
   try {
     const res = await axios.get("/api/auth");
-    console.log(1, res.data);
+    console.log("Loaduser() { res:", res.data, "}");
     dispatch({
       type: USER_LOADED,
       payload: res.data,
