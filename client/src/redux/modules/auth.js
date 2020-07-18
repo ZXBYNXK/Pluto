@@ -103,6 +103,7 @@ export const login = (email, password) => async (dispatch) => {
       type: LOGIN_SUCCESS,
       payload: res.data,
     });
+    // @bug Attempting to fix token not being set to global headers.
     setAuthToken(res.data)
     dispatch(loadUser())
   } catch (err) {
