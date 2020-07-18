@@ -16,6 +16,7 @@ export const LOGIN_FAIL = "PLUTO/AUTH/LOGIN_FAIL";
 export const USER_LOADED = "PLUTO/AUTH/USER_LOADED";
 export const AUTH_ERROR = "PLUTO/AUTH/ERROR";
 export const LOGOUT = "PLUTO/AUTH/LOGOUT";
+
 // Reducer
 const initialState = {
   token: localStorage.getItem("token"),
@@ -99,10 +100,7 @@ export const login = (email, password) => async (dispatch) => {
       type: LOGIN_SUCCESS,
       payload: res.data,
     });
-    dispatch({
-      type: USER_LOADED,
-      payload: res.data,
-    });
+    setAuthToken(res.data)
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) errors.forEach(({ msg }) => dispatch(setAlert(msg, "danger")));
@@ -115,9 +113,12 @@ export const login = (email, password) => async (dispatch) => {
 export const logout = () => (dispatch) => {
   dispatch({ type: CLEAR_PROFILE });
   dispatch({ type: LOGOUT });
+  setAuthToken(false);
 };
+
 export const loadUser = () => async (dispatch) => {
   if (localStorage.token) {
+    console.log(12)
     setAuthToken(localStorage.token);
   }
   try {

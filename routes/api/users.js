@@ -67,7 +67,8 @@ router.post("/", userValidator, async (req, res) => {
     user.password = await bcrypt.hash(password, salt);
 
     // User document created and added to Users collection.
-    await User.create(user);
+    // await User.create(user);
+    await user.save();
 
     // Create payload to be tokenized.
     const payload = {

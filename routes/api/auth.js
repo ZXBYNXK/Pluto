@@ -67,7 +67,7 @@ router.post("/", userValidator, async (req, res) => {
     };
 
     // Sign the token, set experation, and callback and return either error or token.
-    jwt.sign(payload, jwtSec, { expiresIn: 36000 }, (err, token) => {
+    jwt.sign(payload, jwtSec, { expiresIn: 360000 }, (err, token) => {
       if (err) throw err;
       return res.status(200).json(token);
     });
