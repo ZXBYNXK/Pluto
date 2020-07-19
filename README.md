@@ -75,14 +75,14 @@ server.listen(PORT, () => {
 
 - Creating the API.
   - Models
-    - [./models/User.js](#) ( User model )
-    - [./models/Post.js](#) ( Post model )
-    - [./models/Profile.js](#) ( Profile model )
+    - [./models/User.js](https://github.com/DariusRain/Pluto/blob/master/models/User.js) ( User model )
+    - [./models/Post.js](https://github.com/DariusRain/Pluto/blob/master/models/Post.js) ( Post model )
+    - [./models/Profile.js](https://github.com/DariusRain/Pluto/blob/master/models/Profile.js) ( Profile model )
   - Routes
-    - [./routes/api/users.js](#) ( Users route )
-    - [./routes/api/posts.js](#) ( Posts route for users )
-    - [./routes/api/profiles.js](#) ( Profiles routes for users )
-    - [./routes/api/auth.js](#) ( Authenticated routes )
+    - [./routes/api/users.js](https://github.com/DariusRain/Pluto/blob/master/routes/api/users.js) ( Users route )
+    - [./routes/api/posts.js](https://github.com/DariusRain/Pluto/blob/master/routes/api/posts.js) ( Posts route for users )
+    - [./routes/api/profiles.js](https://github.com/DariusRain/Pluto/blob/master/routes/api/profiles.js) ( Profiles routes for users )
+    - [./routes/api/auth.js](https://github.com/DariusRain/Pluto/blob/master/routes/api/auth.js) ( Authenticated routes )
   - JsonWebToken
     - Create a payload you want to sign and send a response <br />
       with the signed token.
