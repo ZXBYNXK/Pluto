@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { Link, Redirect}  from "react-router-dom";
 import { connect } from "react-redux";
 import { login } from "../../redux/modules/auth";
+import Spinner from "../layout/Spinner";
 // Component
 const Login = ({ login, loading, isAuthenticated }) => {
   // State with useState hook.
@@ -30,8 +31,7 @@ const Login = ({ login, loading, isAuthenticated }) => {
   return !loading ? (
     <section className="container card">
       <h1 className="large text-primary">
-        {" "}
-        <i className="fas fa-frog"></i> Login
+        Login
       </h1>
       <form className="form" onSubmit={(e) => onSubmit(e)}>
         <div className="form-group">
@@ -65,7 +65,7 @@ const Login = ({ login, loading, isAuthenticated }) => {
       </p>
     </section>
   ) : (
-    <i style={{fontSize: "6rem"}} className="fas fa-spinner"></i>
+    <Spinner />
   );
 };
 const mstp = ({ auth }) => ({ loading: auth.loading, isAuthenticated: auth.isAuthenticated });

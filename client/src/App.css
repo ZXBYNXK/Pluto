@@ -596,7 +596,7 @@ button {
   align-items: center;
 
 
-  position: fixed;
+  position: absolute;
 
   z-index: 1;
 
@@ -619,13 +619,14 @@ button {
 
 
 
-.navbar a {
+.navbar a, span {
 
   color: #fff;
 
   padding: 0.45rem;
 
   margin: 0 0.25rem;
+  cursor: pointer;
 
 }
 

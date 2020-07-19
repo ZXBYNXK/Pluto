@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout } from "../../redux/modules/auth";
+import Logo from './Logo'
 const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const guestLinks = (
     <ul>
@@ -24,9 +25,9 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
         <Link to="/dashboard">Dashboard</Link>
       </li>
       <li>
-        <a href="!#">
+      
           <span onClick={() => logout()}>Logout</span>
-        </a>
+
       </li>
     </ul>
   );
@@ -34,7 +35,8 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
     <nav className="navbar bg-dark">
       <h1>
         <Link to="/">
-          <i className="fas fa-frog"></i> Pluto
+          <Logo />
+          <span style={{fontSize:"2.4rem", position: "absolute"}}>Pluto</span>
         </Link>
       </h1>
       {!loading && (
