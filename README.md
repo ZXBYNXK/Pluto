@@ -17,8 +17,8 @@
 ```
 
 #### Developing the back-end:
-    - Setting up mongoose database connection & server.
-        - Creating a config folder and index file.        
+- Setting up mongoose database connection & server.
+    - Creating a config folder and index file.        
 
 ```javascript
             // Location: ./config/index.js
@@ -30,7 +30,7 @@
             }
 ```
 
-        - DB connection file.
+- DB connection file.
 
 ```javascript
             // Location: ./config/db/index.js
@@ -51,7 +51,7 @@
             };
 ```
 
-        - Initialization of the server.js file & importing the above.
+- Initialization of the server.js file & importing the above.
 
 ```javascript
             // SERVER MAIN
@@ -72,19 +72,19 @@
 
 ```
 
-    - Creating the API.
-        - Models
-            - [./models/User.js](#) ( User model )
-            - [./models/Post.js](#) ( Post model )
-            - [./models/Profile.js](#) ( Profile model )
-        - Routes
-            - [./routes/api/users.js](#) ( Users route )
-            - [./routes/api/posts.js](#) ( Posts route for users )
-            - [./routes/api/profiles.js](#) ( Profiles routes for users )
-            - [./routes/api/auth.js](#) ( Authenticated routes )
-        - JsonWebToken
-            - Create a payload you want to sign and send a response <br /> 
-                with the signed token.
+- Creating the API.
+    - Models
+        - [./models/User.js](#) ( User model )
+        - [./models/Post.js](#) ( Post model )
+        - [./models/Profile.js](#) ( Profile model )
+    - Routes
+        - [./routes/api/users.js](#) ( Users route )
+        - [./routes/api/posts.js](#) ( Posts route for users )
+        - [./routes/api/profiles.js](#) ( Profiles routes for users )
+        - [./routes/api/auth.js](#) ( Authenticated routes )
+    - JsonWebToken
+        - Create a payload you want to sign and send a response <br /> 
+            with the signed token.
 
 ```javascript
                 // Jwt
