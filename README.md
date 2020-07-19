@@ -19,7 +19,8 @@
 #### Developing the back-end:
     - Setting up mongoose database connection & server.
         - Creating a config folder and index file.        
-````javascript
+
+```javascript
             // Location: ./config/index.js
             module.exports = {
                 "mongoUri": "mongodb+srv://<USERNAME>:<PASSWORD>@<CLUSTER-NAME>-xhcxn.mongodb.net/<APP-NAME>?retryWrites=true",
@@ -28,8 +29,10 @@
                 "githubClientSecret": "<GET-FROM-GITHUB-OAUTH-DEV-SETTINGS>"
             }
 ```
+
         - DB connection file.
-````javascript
+
+```javascript
             // Location: ./config/db/index.js
             const { mongoUri } = require("../index");
             module.exports = async () => {
@@ -47,8 +50,10 @@
                 }
             };
 ```
+
         - Initialization of the server.js file & importing the above.
-````javascript
+
+```javascript
             // SERVER MAIN
 
             // Server
@@ -66,6 +71,7 @@
             });
 
 ```
+
     - Creating the API.
         - Models
             - [./models/User.js](#) ( User model )
@@ -79,7 +85,8 @@
         - JsonWebToken
             - Create a payload you want to sign and send a response <br /> 
                 with the signed token.
-````javascript
+
+```javascript
                 // Jwt
                 // Whats needed.
                 const jwt = require("jsonwebtoken");
@@ -111,8 +118,10 @@
                 );
                 
 ```
+
             - Token verification middleware for tokens sent by the client.
-````javascript
+
+```javascript
                 // Location: ./middleware/auth.js
                 const {verify} = require("jsonwebtoken");
                 const {jwtSec} = require("../config");
