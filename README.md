@@ -118,7 +118,7 @@ jwt.sign(
 );
 ```
 
-            - Token verification middleware for tokens sent by the client.
+- Token verification middleware for tokens sent by the client.
 
 ```javascript
 // Location: ./middleware/auth.js
