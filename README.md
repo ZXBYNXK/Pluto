@@ -16,7 +16,59 @@
 }
 ```
 
-# Front-End:
+#### Developing the back-end:
+    - Setting up mongoose database connection & server.
+        - Creating a config folder and index file.        
+```javascript
+            // Location: ./config/index.js
+            module.exports = {
+                "mongoUri": "mongodb+srv://<USERNAME>:<PASSWORD>@<CLUSTER-NAME>-xhcxn.mongodb.net/<APP-NAME>?retryWrites=true",
+                "jwtSec": "<ANY-STRING>",
+                "githubClientId": "<GET-FROM-GITHUB-OAUTH-DEV-SETTINGS>",
+                "githubClientSecret": "<GET-FROM-GITHUB-OAUTH-DEV-SETTINGS>"
+            }
+```
+        - DB connection file.
+```javascript
+            // Location: ./config/db/index.js
+            const { mongoUri } = require("../index");
+            module.exports = async () => {
+                try {
+                    await mongoose.connect(mongoUri, {
+                    useNewUrlParser: true,
+                    useUnifiedTopology: true,
+                    useCreateIndex: true,
+                    useFindAndModify: false,
+                    });
+                    console.log("Connected to database.");
+                } catch (err) {
+                    console.error(err);
+                    process.exit(1);
+                }
+            };
+```
+        - Initialization of the server.js file & importing the above.
+```javascript
+            // SERVER MAIN
+
+            // Server
+            const express = require("express");
+            const server = express();
+            const PORT = process.env.PORT || 5000;
+
+            // Database
+            const connectDB = require("./config/db");
+
+            // Connections
+            connectDB();
+            server.listen(PORT, () => {
+                console.log(`Listening on ${PORT}`);
+            });
+
+```
+
+
+## Front-End:
 
 ```javascript
 "dependencies": {
