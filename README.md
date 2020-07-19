@@ -67,8 +67,74 @@
 
 ```
     - Creating the API.
+        - Models
+            - [./models/User.js](#) ( User model )
+            - [./models/Post.js](#) ( Post model )
+            - [./models/Profile.js](#) ( Profile model )
         - Routes
+            - [./routes/api/users.js](#) ( Users route )
+            - [./routes/api/posts.js](#) ( Posts route for users )
+            - [./routes/api/profiles.js](#) ( Profiles routes for users )
+            - [./routes/api/auth.js](#) ( Authenticated routes )
+        - JsonWebToken
+            - Create a payload you want to sign and send a response <br /> 
+                with the signed token.
+```javascript
+                // Jwt
+                // Whats needed.
+                const jwt = require("jsonwebtoken");
+                const { jwtSec } = require("../../config"); 
 
+                
+                // Creating a payload that you want to sign.
+                const payload = {
+                    user: userDocId
+                }
+
+                // You would perorm a .find(<Unique Key/Value>) on a model 
+                // in order to get 'userDocId' above in the payload.
+
+                // Sign the token, set experation, and callback and return either error or token.
+                jwt.sign(
+                    // Arg1 Payload: Could be anything.
+                    payload,
+                    // Secret string imported from ./config/index.js
+                    jwtSec, 
+                    // Set an expiration date on the token.
+                    { expiresIn: 360000 }, 
+                    // Callback with either error either false or truthy val
+                    // and then the token as the second value passed
+                    (err, token) => {
+                        if (err) throw err;
+                        return res.status(200).json(token);
+                    }
+                );
+                
+```
+            - Token verification middleware for tokens sent by the client.
+```javascript
+                // Location: ./middleware/auth.js
+                const {verify} = require("jsonwebtoken");
+                const {jwtSec} = require("../config");
+                module.exports = (req, res, next) => {
+                    // Get token from header
+                    const token = req.header("x-auth-token");
+                    // Check if not token
+                    if(!token)
+                    {
+                    return res.status(401).json({msg: "No token, authorization denied."})
+                    }
+
+                    // Verify token
+                    try {
+                        const decoded = verify(token, jwtSec);
+                        req.user = decoded;
+                        next();
+                    } catch (err) {
+                        res.status(401).json({msg: "Token is not valid."})
+                    }
+                }
+```
 ## Front-End:
 
 ```javascript
