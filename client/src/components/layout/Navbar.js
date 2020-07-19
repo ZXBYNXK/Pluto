@@ -36,8 +36,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
       <h1>
         <Link to="/">
           <Logo />
-          &nbsp;
-          <span style={{fontSize:"4.5rem"}}>Pluto</span>
+          <span style={{fontSize:"2.4rem", position: "absolute"}}>Pluto</span>
         </Link>
       </h1>
       {!loading && (

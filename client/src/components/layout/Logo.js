@@ -8,7 +8,7 @@ const Logo = ({ auth: { loading } }) =>
     <Spinner />
   ) : (
     <img
-      style={{ width: "4rem", borderRadius: "1rem" }}
+      style={{ margin: "1rem", minWidth: "2rem", maxWidth:"3rem", borderRadius: "1rem", }}
       alt="Logo"
       src={logo}
     />

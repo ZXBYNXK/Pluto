@@ -8,9 +8,9 @@ const Landing = ({isAuthenticated}) => {
   }
   
   return (<section className="landing">
-    <div className="dark-overlay">
+    <div  className="dark-overlay">
       <div className="landing-inner">
-        <h1 className="x-large">Pluto will help you share your professional experience!</h1>
+        <h1 className="large">Pluto will help you share your professional experience!</h1>
 
         <p className="lead">
           Create a profile & get started.
