@@ -1,7 +1,8 @@
 // REDUCER FILE
 
-// Modules
-import axios from "axios";
+// API
+import api from '../utils/api';
+
 
 // External Files
 import setAuthToken from "../../utils/setAuthToken";
@@ -20,39 +21,38 @@ export const ACCOUNT_DELETED = "PLUTO/AUTH/ACCOUNT_DELETED";
 
 // Reducer
 const initialState = {
-  token: localStorage.getItem("token"),
+  token: localStorage.getItem('token'),
   isAuthenticated: null,
   loading: true,
-  user: null,
+  user: null
 };
 
-export default (state = initialState, { type, payload }) => {
+export default function (state = initialState, action) {
+  const { type, payload } = action;
+
   switch (type) {
     case USER_LOADED:
-      console.log("User loaded: { User : ", payload, "}")
       return {
         ...state,
         isAuthenticated: true,
         loading: false,
-        user: payload,
+        user: payload
+      };
+    case REGISTER_SUCCESS:
+      return {
+        ...state,
+        ...payload,
+        isAuthenticated: true,
+        loading: false
       };
     case LOGIN_SUCCESS:
-    case REGISTER_SUCCESS:
-      localStorage.setItem("token", payload);
-      console.log("Register Sucess: { Token : ", payload, "}")
       return {
         ...state,
-        token: payload,
+        ...payload,
         isAuthenticated: true,
-        loading: false,
+        loading: false
       };
-    case AUTH_ERROR:
-    case LOGIN_FAIL:
-    case REGISTER_FAIL:
-    case LOGOUT:
     case ACCOUNT_DELETED:
-      localStorage.removeItem("token");
-            console.log("Logouy: { LocalStorage : { Token: ", payload, "} }");
       return {
         ...state,
         token: null,
@@ -60,85 +60,84 @@ export default (state = initialState, { type, payload }) => {
         loading: false,
         user: null
       };
-      case ACCOUNT_DELETED:
-        
+    case AUTH_ERROR:
+    case LOGOUT:
+      return {
+        ...state,
+        token: null,
+        isAuthenticated: false,
+        loading: false,
+        user: null
+      };
     default:
       return state;
   }
-};
+}
 
 // - Action creators
-export const register = ({ email, name, password }) => async (dispatch) => {
-  const body = JSON.stringify({ email, name, password });
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
+export const loadUser = () => async dispatch => {
   try {
-    const res = await axios.post("/api/users", body, config);
+    const res = await api.get('/auth');
+
+    dispatch({
+      type: USER_LOADED,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR
+    });
+  }
+};
+
+// Register User
+export const register = formData => async dispatch => {
+  try {
+    const res = await api.post('/users', formData);
+
     dispatch({
       type: REGISTER_SUCCESS,
-      payload: res.data,
+      payload: res.data
     });
-    dispatch({
-      type: USER_LOADED,
-      payload: res.data,
-    });
+    dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
-    if (errors) errors.forEach(({ msg }) => dispatch(setAlert(msg, "danger")));
+
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
+
     dispatch({
-      type: REGISTER_FAIL,
+      type: REGISTER_FAIL
     });
   }
 };
 
-export const login = (email, password) => async (dispatch) => {
-  const body = JSON.stringify({ email, password });
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
+// Login User
+export const login = (email, password) => async dispatch => {
+  const body = { email, password };
+
   try {
-    const res = await axios.post("/api/auth", body, config);
+    const res = await api.post('/auth', body);
+
     dispatch({
       type: LOGIN_SUCCESS,
-      payload: res.data,
+      payload: res.data
     });
-    // @bug Attempting to fix token not being set to global headers.
-    setAuthToken(res.data)
-    dispatch(loadUser())
+
+    dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
-    if (errors) errors.forEach(({ msg }) => dispatch(setAlert(msg, "danger")));
+
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
+
     dispatch({
-      type: LOGIN_FAIL,
+      type: LOGIN_FAIL
     });
   }
 };
 
-export const logout = () => (dispatch) => {
-  dispatch({ type: CLEAR_PROFILE });
-  dispatch({ type: LOGOUT });
-  setAuthToken(false);
-};
-
-export const loadUser = () => async (dispatch) => {
-  if (localStorage.token) {
-    setAuthToken(localStorage.token);
-  }
-  try {
-    const res = await axios.get("/api/auth");
-    console.log("Loaduser() { res:", res.data, "}");
-    dispatch({
-      type: USER_LOADED,
-      payload: res.data,
-    });
-  } catch (err) {
-    dispatch({
-      type: AUTH_ERROR,
-    });
-  }
-};
+// Logout
+export const logout = () => ({ type: LOGOUT });

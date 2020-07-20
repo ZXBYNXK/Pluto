@@ -22,12 +22,12 @@ const reducer = combineReducers({
 });
 
 // Create store
-const store = (initialState = {}) =>
+const store = ((initialState = {}) =>
   createStoreWithMiddleware(
     reducer,
     initialState,
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() // <- Not in production
-  );
+  ))();
 
 // Export to ./src/App.js
 export default store;

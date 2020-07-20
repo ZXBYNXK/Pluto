@@ -4,21 +4,19 @@ import { connect } from "react-redux";
 import { getCurrentProfile, deleteAccount } from "../../redux/modules/profile";
 import PropTypes from "prop-types";
 import DashBoardActions from "./DashBoardActions";
-import Spinner from "../layout/Spinner";
 import Experience from "./Experience";
 import Education from "./Education";
 
 const Dashboard = ({
   getCurrentProfile,
+  deleteAccount,
   auth: { user },
-  profile: { profile, loading },
+  profile: { profile },
 }) => {
   useEffect(() => {
     getCurrentProfile();
-  }, []);
-  return loading && profile === null ? (
-    <Spinner />
-  ) : (
+  }, [getCurrentProfile]);
+  return (
     <Fragment>
       <h1 className="large text-primary">Dashboard</h1>
       <p className="lead">

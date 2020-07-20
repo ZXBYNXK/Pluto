@@ -1,18 +1,21 @@
 import React from "react";
+import { connect } from "react-redux";
 import Moment from "react-moment";
+import moment from "moment";
+
 import PropTypes from "prop-types";
 import { deleteEducation } from "../../redux/modules/profile";
-
-const Education = ({ education }) => {
+const Education = ({ education, deleteEducation }) => {
   const educations = education.map((edu) => (
     <ti key={edu._id}>
-      <td>{edu.company}</td>
-      <td className="hide-sm">{edu.title}</td>
+      <td>{edu.school}</td>
+      <td className="hide-sm">{edu.degree}</td>
+      <Moment fomat="YYYY/MM/DD">{moment.utc(edu.from)}</Moment>
       <td>
         {edu.to === null ? (
           "Now"
         ) : (
-          <Moment fomat="YYYY/MM/DD">{edu.from}</Moment>
+          <Moment fomat="YYYY/MM/DD">{moment.utc(edu.to)}</Moment>
         )}
       </td>
       <td>
@@ -48,4 +51,4 @@ Education.propTypes = {
   deleteEducation: PropTypes.func.isRequired,
 };
 
-export default connect(null, { deleteEducation })(Experience);
+export default connect(null, { deleteEducation })(Education);

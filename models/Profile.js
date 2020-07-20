@@ -1,15 +1,15 @@
 // MODEL: Profile.js
 
 // Import mongoose & start creating the schemas the schema.
-const { Schema, model } = require("mongoose"),
-  ProfileSchema = new Schema({
+const mongoose  = require("mongoose");
+const {Schema, model} = mongoose;  
+const profileSchema = new Schema({
     //
 
     // This references a objectId from a User Model
     user: {
       type: Schema.Types.ObjectId,
-      ref: "users",
-      required: true
+      ref: "user",
     },
 
     // If user owns a website.
@@ -149,4 +149,4 @@ const { Schema, model } = require("mongoose"),
       },
   });
 
-module.exports = model("Profile", ProfileSchema);
+module.exports = model("Profile", profileSchema);

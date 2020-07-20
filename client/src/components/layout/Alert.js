@@ -18,5 +18,5 @@ const Alert = ({ alerts }) => (
 Alert.propTypes = {
   alerts: PropTypes.array.isRequired,
 };
-const mstp = (state) => ({ alerts: state.alerts });
+const mstp = (state) => ({ alerts: state.alert });
 export default connect(mstp)(Alert);

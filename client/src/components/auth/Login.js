@@ -2,12 +2,14 @@
 
 // Modules
 import React, { useState } from "react";
-import { Link, Redirect}  from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { login } from "../../redux/modules/auth";
 import Spinner from "../layout/Spinner";
+
 // Component
-const Login = ({ login, loading, isAuthenticated }) => {
+const Login = ({ login, isAuthenticated }) => {
   // State with useState hook.
   const [formData, setFormData] = useState({
     email: "",
@@ -25,14 +27,12 @@ const Login = ({ login, loading, isAuthenticated }) => {
   };
 
   if (isAuthenticated) {
-    return <Redirect to="/dashboard" />
+    return <Redirect to="/dashboard" />;
   }
   // JSX
-  return !loading ? (
+  return (
     <section className="container card">
-      <h1 className="large text-primary">
-        Login
-      </h1>
+      <h1 className="large text-primary">Login</h1>
       <form className="form" onSubmit={(e) => onSubmit(e)}>
         <div className="form-group">
           <input
@@ -64,9 +64,13 @@ const Login = ({ login, loading, isAuthenticated }) => {
         </Link>
       </p>
     </section>
-  ) : (
-    <Spinner />
-  );
+  )
 };
-const mstp = ({ auth }) => ({ loading: auth.loading, isAuthenticated: auth.isAuthenticated });
+Login.propTypes = {
+  login: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
+};
+const mstp = ({ auth }) => ({
+  isAuthenticated: auth.isAuthenticated,
+});
 export default connect(mstp, { login })(Login);
