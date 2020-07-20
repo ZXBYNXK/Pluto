@@ -1,9 +1,9 @@
 import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {addExperience} from "../../redux/modules/profile";
-const AddExperience = ({addExperience}) => {
+const AddExperience = ({addExperience, history}) => {
   const [formData, setFormData] = useState({
     company: "",
     title: "",
@@ -36,7 +36,7 @@ const AddExperience = ({addExperience}) => {
             placeholder="* Job Title"
             name="title"
             value={title}
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
             required
           />
         </div>
@@ -47,7 +47,7 @@ const AddExperience = ({addExperience}) => {
             placeholder="* Company"
             name="company"
             value={company}
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
             required
           />
         </div>
@@ -58,7 +58,7 @@ const AddExperience = ({addExperience}) => {
             placeholder="Location"
             name="location"
             value={location}
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
           />
         </div>
 
@@ -69,7 +69,7 @@ const AddExperience = ({addExperience}) => {
             type="date"
             name="from"
             value={from}
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
           />
         </div>
 
@@ -95,7 +95,7 @@ const AddExperience = ({addExperience}) => {
             type="date"
             name="to"
             value={to}
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
             disabled={toDateDisabled ? 'disabled' : ''}
           />
         </div>
@@ -107,7 +107,7 @@ const AddExperience = ({addExperience}) => {
             rows="5"
             placeholder="Job Description"
             value={description}
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
           ></textarea>
         </div>
 
@@ -125,4 +125,4 @@ AddExperience.propTypes = {
   addExperience: PropTypes.func.isRequired,
 };
 
-export default connect(null, { addExperience })(withRouter(AddExperience));
+export default connect(null, { addExperience })(AddExperience);
