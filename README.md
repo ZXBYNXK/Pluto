@@ -24,9 +24,12 @@
 ```javascript
 // Location: ./config/index.js
 module.exports = {
-  mongoUri:
-    "mongodb+srv://<USERNAME>:<PASSWORD>@<CLUSTER-NAME>-xhcxn.mongodb.net/<APP-NAME>?retryWrites=true",
+  // This is needed for connecting a database for when mongosse.connect() needs to use it & apply a connection.
+  mongoUri:"mongodb+srv://<USERNAME>:<PASSWORD>@<CLUSTER-NAME>-xhcxn.mongodb.net/<APP-NAME>?retryWrites=true",
+  // This is needed in order to Sign & Verify JSON web tokens sort of like a password but more like a private key.
   jwtSec: "<ANY-STRING>",
+  // These are used for retreval of a users github information, this is obtained by going to your Github and creating
+  // a OAuth application.
   githubClientId: "<GET-FROM-GITHUB-OAUTH-DEV-SETTINGS>",
   githubClientSecret: "<GET-FROM-GITHUB-OAUTH-DEV-SETTINGS>",
 };
@@ -99,14 +102,13 @@ const { jwtSec } = require("../../config");
 // in a JSON web token.
 
 // Creating a payload that you want to sign.
+// You would perorm a .find(<KEY:UNIQUE-VALUE>) on a model in order to get 'userDocId'.
+// Note: You can add more properties to a payload if you wanted to.
 const payload = {
   user: userDocId,
 };
 
-// You would perorm a .find(<Unique Key/Value>) on a model
-// in order to get 'userDocId' above in the payload.
-
-// Sign the token, set experation, and callback and return either error or token.
+// Sign the token, set experation, and a callback that returns either an error or the token.
 jwt.sign(
   // PAYLOAD: Could be anything.
   payload,
