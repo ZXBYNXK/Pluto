@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export const DashBoardActions = () => {
+const DashBoardActions = () => {
   return (
     <div className="dash-buttons">
       <Link to="/edit-profile" className="btn btn-light">
