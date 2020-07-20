@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout } from "../../redux/modules/auth";
-import Logo from './Logo'
+import Logo from "./Logo";
 const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const guestLinks = (
     <ul>
@@ -22,20 +22,21 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const authLinks = (
     <ul>
       <li>
+        <Link to="/#">Developers</Link>
+      </li>
+      <li>
         <Link to="/dashboard">Dashboard</Link>
       </li>
       <li>
-      
-          <span onClick={() => logout()}>Logout</span>
-
+        <span onClick={() => logout()}>Logout</span>
       </li>
     </ul>
   );
   return (
     <nav className="navbar bg-dark">
-        <Link to="/">
-          <Logo />
-        </Link>
+      <Link to="/">
+        <Logo />
+      </Link>
       {!loading && (
         <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
       )}
