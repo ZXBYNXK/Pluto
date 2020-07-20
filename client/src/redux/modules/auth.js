@@ -1,7 +1,8 @@
 // REDUCER FILE
 
-// Modules
-import axios from "axios";
+// API
+import api from '../utils/api';
+
 
 // External Files
 import setAuthToken from "../../utils/setAuthToken";
