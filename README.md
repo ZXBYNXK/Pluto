@@ -88,8 +88,8 @@ server.listen(PORT, () => {
       with the signed token.
 
 ```javascript
-// Jwt
-// Whats needed.
+// CREATING A JSON WEBTOKEN
+
 const jwt = require("jsonwebtoken");
 const { jwtSec } = require("../../config");
 
@@ -108,14 +108,16 @@ const payload = {
 
 // Sign the token, set experation, and callback and return either error or token.
 jwt.sign(
-  // Arg1 Payload: Could be anything.
+  // PAYLOAD: Could be anything.
   payload,
-  // Secret string imported from ./config/index.js
+  // JWT-SECRET: Secret string imported from ./config/index.js
   jwtSec,
-  // Set an expiration date on the token.
+  // EXPIRATION: Set an expiration date on the token.
   { expiresIn: 360000 },
-  // Callback with either error either false or truthy val
-  // and then the token as the second value passed
+  // CB-FUNC: Callback recieves two values passed,
+  //    err: Either false or truthy val
+  //    token: If the above 'err' is false then this argument has
+  //            a value of a token.
   (err, token) => {
     if (err) throw err;
     return res.status(200).json(token);
@@ -126,23 +128,41 @@ jwt.sign(
 - Token verification middleware for tokens sent by the client.
 
 ```javascript
+// VERIFYING A JSON WEBTOKEN
 // Location: ./middleware/auth.js
 const { verify } = require("jsonwebtoken");
 const { jwtSec } = require("../config");
 module.exports = (req, res, next) => {
-  // Get token from header
-  const token = req.header("x-auth-token");
-  // Check if not token
+  
+  // Get token from header 
+  // When building the front-end, this property in the header will be set using axios.
+  const token = req.header("x-auth-token"); 
+  
+  
+  // If no token
   if (!token) {
     return res.status(401).json({ msg: "No token, authorization denied." });
   }
 
   // Verify token
   try {
+    // Scince there is a token after the above logic, it now needs verified.
+    // The verify method takes in the token and the jwt secret string as arguemnts.
+    // and the secret string used to sign the token will now be used
+    // to decode the token.
     const decoded = verify(token, jwtSec);
+
+    // The decoded token should be the payload it once was whenever you signed the token
+    // in whatever route handles that operation. (See the last example.)
+
+    // req.user = { id: "MongooseDocumentId", iat: "IssuedAtTimeSetInMiliseconds." }
     req.user = decoded;
+    
+    // Proceed to the next callback function in the chain.
     next();
+
   } catch (err) {
+    // If any falsey values were thrown above then that means the token was not valid.
     res.status(401).json({ msg: "Token is not valid." });
   }
 };
