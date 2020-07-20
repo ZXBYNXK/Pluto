@@ -16,6 +16,7 @@ export const CLEAR_PROFILE = "PLUTO/PROFILES/CLEAR_PROFILE";
 export const UPDATE_PROFILE = "PLUTO/PROFILES/UPDATE_PROFILE";
 
 // Reducer
+
 const initialState = {
   profile: null,
   profiles: [],
@@ -24,20 +25,21 @@ const initialState = {
   error: {},
 };
 
-export default (state = initialState, { type, payload }) => {
+export default function (state = initialState, action) {
+  const { type, payload } = action;
+
   switch (type) {
-    case CLEAR_PROFILE:
-      return {
-        ...state,
-        profile: null,
-        repos: [],
-        loading: false,
-      };
-    case UPDATE_PROFILE:
     case GET_PROFILE:
+    case UPDATE_PROFILE:
       return {
         ...state,
         profile: payload,
+        loading: false,
+      };
+    case GET_PROFILES:
+      return {
+        ...state,
+        profiles: payload,
         loading: false,
       };
     case PROFILE_ERROR:
@@ -45,12 +47,29 @@ export default (state = initialState, { type, payload }) => {
         ...state,
         error: payload,
         loading: false,
+        profile: null,
       };
-
+    case CLEAR_PROFILE:
+      return {
+        ...state,
+        profile: null,
+        repos: [],
+      };
+    // case GET_REPOS:
+    //   return {
+    //     ...state,
+    //     repos: payload,
+    //     loading: false,
+    //   };
+    // case NO_REPOS:
+    //   return {
+    //     ...state,
+    //     repos: [],
+    //   };
     default:
       return state;
   }
-};
+}
 
 // Action Creators
 export const getCurrentProfile = () => async (dispatch) => {
