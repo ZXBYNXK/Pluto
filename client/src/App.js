@@ -10,8 +10,8 @@ import { Provider } from 'react-redux';
 import store from './redux';
 import { loadUser } from './redux/modules/auth';
 import setAuthToken from './utils/setAuthToken';
-
 import './App.css';
+
 
 const App = () => {
   useEffect(() => {
