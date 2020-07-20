@@ -93,6 +93,11 @@ server.listen(PORT, () => {
 const jwt = require("jsonwebtoken");
 const { jwtSec } = require("../../config");
 
+// This below operation would be performed inside the try & catch block
+// of your route handler.  Usually after a document has been found from the 
+// database you would then use the ID of the document as a payload, though you can store more
+// in a JSON web token.
+
 // Creating a payload that you want to sign.
 const payload = {
   user: userDocId,
