@@ -9,6 +9,7 @@ const { Schema, model } = require("mongoose"),
     user: {
       type: Schema.Types.ObjectId,
       ref: "users",
+      required: true
     },
 
     // If user owns a website.

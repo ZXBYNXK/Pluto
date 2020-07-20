@@ -114,7 +114,7 @@ router.post("/", [auth, profileValidator], async (req, res) => {
   if (linkedin) profileFeilds.social.linkedin = linkedin;
   if (instagram) profileFeilds.social.instagram = instagram;
   try {
-    let profile = await Profile.findOne({ user: req.user.id });
+    let profile = await Profile.findOne({ user: req.user._id });
     // If profile then update
     if (profile) {
       profile = await Profile.findOneAndUpdate(
@@ -126,7 +126,7 @@ router.post("/", [auth, profileValidator], async (req, res) => {
     }
     // Create if not found
     profile = new Profile(profileFeilds);
-    await profile.save();
+    profile = await profile.save();
     return res.json(profile);
   } catch (err) {
     console.error(err.message);
@@ -145,7 +145,7 @@ router.delete("/", auth, async (req, res) => {
     // Remove User
     await User.findOneAndRemove({ _id: req.user.id });
 
-    return res.json({ msg: "User Deleted" });
+    return res.json({ msg: "Profile Deleted" });
   } catch (err) {
     console.error(err.message);
     return res.status(500).status({ msg: "Server Error" });
