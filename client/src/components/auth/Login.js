@@ -9,7 +9,7 @@ import { login } from "../../redux/modules/auth";
 import Spinner from "../layout/Spinner";
 
 // Component
-const Login = ({ login, isAuthenticated }) => {
+const Login = ({ login, loading, isAuthenticated }) => {
   // State with useState hook.
   const [formData, setFormData] = useState({
     email: "",
@@ -30,7 +30,7 @@ const Login = ({ login, isAuthenticated }) => {
     return <Redirect to="/dashboard" />;
   }
   // JSX
-  return (
+  return !loading ? (
     <section className="container card">
       <h1 className="large text-primary">Login</h1>
       <form className="form" onSubmit={(e) => onSubmit(e)}>
@@ -64,13 +64,16 @@ const Login = ({ login, isAuthenticated }) => {
         </Link>
       </p>
     </section>
-  )
+  ) : (
+    <Spinner />
+  );
 };
 Login.propTypes = {
   login: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
 };
 const mstp = ({ auth }) => ({
+  loading: auth.loading,
   isAuthenticated: auth.isAuthenticated,
 });
 export default connect(mstp, { login })(Login);
