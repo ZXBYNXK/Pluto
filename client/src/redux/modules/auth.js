@@ -16,6 +16,7 @@ export const LOGIN_FAIL = "PLUTO/AUTH/LOGIN_FAIL";
 export const USER_LOADED = "PLUTO/AUTH/USER_LOADED";
 export const AUTH_ERROR = "PLUTO/AUTH/ERROR";
 export const LOGOUT = "PLUTO/AUTH/LOGOUT";
+export const ACCOUNT_DELETED = "PLUTO/AUTH/ACCOUNT_DELETED";
 
 // Reducer
 const initialState = {
@@ -49,6 +50,7 @@ export default (state = initialState, { type, payload }) => {
     case LOGIN_FAIL:
     case REGISTER_FAIL:
     case LOGOUT:
+    case ACCOUNT_DELETED:
       localStorage.removeItem("token");
             console.log("Logouy: { LocalStorage : { Token: ", payload, "} }");
       return {
@@ -58,6 +60,8 @@ export default (state = initialState, { type, payload }) => {
         loading: false,
         user: null
       };
+      case ACCOUNT_DELETED:
+        
     default:
       return state;
   }

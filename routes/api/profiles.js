@@ -4,9 +4,12 @@ const router = Router();
 const auth = require("../../middleware/auth");
 const Profile = require("../../models/Profile");
 const User = require("../../models/Profile");
+const Posts = require("../../models/Post");
+
 const request = require("request");
 const { githubClientId, githubClientSecret } = require("../../config");
 const { validationResult, check } = require("express-validator");
+const Post = require("../../models/Post");
 const profileValidator = [
   check("status", "Status is required.").not().isEmpty(),
   check("skills", "Skills is required.").not().isEmpty(),
@@ -114,7 +117,7 @@ router.post("/", [auth, profileValidator], async (req, res) => {
   if (linkedin) profileFeilds.social.linkedin = linkedin;
   if (instagram) profileFeilds.social.instagram = instagram;
   try {
-    let profile = await Profile.findOne({ user: req.user._id });
+    let profile = await Profile.findOne({ user: req.user.id });
     // If profile then update
     if (profile) {
       profile = await Profile.findOneAndUpdate(
@@ -138,7 +141,11 @@ router.post("/", [auth, profileValidator], async (req, res) => {
 // @desc  Delete User profile.
 // @access Private
 router.delete("/", auth, async (req, res) => {
+
   try {
+    // Remove Posts
+    await Post.deleteMany({user: req.user.id})
+
     // Remove Profile
     await Profile.findOneAndRemove({ user: req.user.id });
 
