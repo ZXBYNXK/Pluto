@@ -20,39 +20,38 @@ export const ACCOUNT_DELETED = "PLUTO/AUTH/ACCOUNT_DELETED";
 
 // Reducer
 const initialState = {
-  token: localStorage.getItem("token"),
+  token: localStorage.getItem('token'),
   isAuthenticated: null,
   loading: true,
-  user: null,
+  user: null
 };
 
-export default (state = initialState, { type, payload }) => {
+export default function (state = initialState, action) {
+  const { type, payload } = action;
+
   switch (type) {
     case USER_LOADED:
-      console.log("User loaded: { User : ", payload, "}")
       return {
         ...state,
         isAuthenticated: true,
         loading: false,
-        user: payload,
+        user: payload
+      };
+    case REGISTER_SUCCESS:
+      return {
+        ...state,
+        ...payload,
+        isAuthenticated: true,
+        loading: false
       };
     case LOGIN_SUCCESS:
-    case REGISTER_SUCCESS:
-      localStorage.setItem("token", payload);
-      console.log("Register Sucess: { Token : ", payload, "}")
       return {
         ...state,
-        token: payload,
+        ...payload,
         isAuthenticated: true,
-        loading: false,
+        loading: false
       };
-    case AUTH_ERROR:
-    case LOGIN_FAIL:
-    case REGISTER_FAIL:
-    case LOGOUT:
     case ACCOUNT_DELETED:
-      localStorage.removeItem("token");
-            console.log("Logouy: { LocalStorage : { Token: ", payload, "} }");
       return {
         ...state,
         token: null,
@@ -60,12 +59,19 @@ export default (state = initialState, { type, payload }) => {
         loading: false,
         user: null
       };
-      case ACCOUNT_DELETED:
-        
+    case AUTH_ERROR:
+    case LOGOUT:
+      return {
+        ...state,
+        token: null,
+        isAuthenticated: false,
+        loading: false,
+        user: null
+      };
     default:
       return state;
   }
-};
+}
 
 // - Action creators
 export const loadUser = () => async (dispatch) => {
