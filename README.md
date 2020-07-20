@@ -129,8 +129,8 @@ jwt.sign(
 
 - Token verification middleware for tokens sent by the client.
 
-```javascript
-// VERIFYING A JSON WEBTOKEN
+```javascript    
+// EXAMPLE: VERIFYING A JSON WEBTOKEN
 // Location: ./middleware/auth.js
 const { verify } = require("jsonwebtoken");
 const { jwtSec } = require("../config");
@@ -168,6 +168,45 @@ module.exports = (req, res, next) => {
     res.status(401).json({ msg: "Token is not valid." });
   }
 };
+```
+- Password hashing & authentication with bcryptjs:
+    - Like the above example this will be implemented in a route file.
+    - See:
+        - Registering users: Route -> POST '/api/users' @ [./routes/api/users.js](https://github.com/DariusRain/Pluto/blob/master/routes/api/users.js)
+        - Logging in users: Route -> POST '/api/auth' @ [./routes/api/auth.js](https://github.com/DariusRain/Pluto/blob/master/routes/api/auth.js)
+
+```javascript
+    // EXAMPLE: Password hashing with bcryptjs
+
+    // NEEDED IN BOTH FILES
+    const bcrypt = require("bcryptjs");
+    
+    // FILE: ./routes/api/users.js (ROUTE FILE)
+
+    // Generate random string to add to hash for security reasons.
+    const salt = await bcrypt.genSalt(10);
+
+    // Hash the password and assign it to the user object.
+    user.password = await bcrypt.hash(password, salt);
+
+    // -----------------------------------------------------
+
+    // FILE: ./routes/api/auth.js (ROUTE FILE)
+    // See if hashed password is correct with bcrypt.compare(pass, hashedPass)
+    
+    // - 'password': would come from the body of the request.
+
+    // - 'user.password': would come from a variable that has a user document as the value after
+    // searching the Users collection for a matching email which value is from body of the request along with the password
+    // used in the first argument.
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    // If there is no match bewtween passwords.
+    if (!isMatch) {
+      return res.status(400).json({ errors: [{ msg: "Invalid Credentials" }] });
+    }
+
+    // Continue the process
 ```
 
 ## Front-End:
