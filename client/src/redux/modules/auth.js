@@ -1,15 +1,13 @@
 // REDUCER FILE
 
 // API
-import api from '../utils/api';
+import api from '../../utils/api';
 
 
 // External Files
-import setAuthToken from "../../utils/setAuthToken";
 import { setAlert } from "./alert";
 
 // Action Types
-import { CLEAR_PROFILE } from "./profile";
 export const REGISTER_SUCCESS = "PLUTO/AUTH/REGISTER_SUCCESS";
 export const REGISTER_FAIL = "PLUTO/AUTH/REGISTER_FAIL";
 export const LOGIN_SUCCESS = "PLUTO/AUTH/LOGIN_SUCCESS";

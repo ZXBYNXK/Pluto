@@ -2,7 +2,7 @@
 
 // Modules
 // API
-import api from '../utils/api';
+import api from '../../utils/api';
 
 // Ext Action Creators
 import { setAlert } from "./alert";
@@ -15,6 +15,9 @@ export const GET_PROFILE = "PLUTO/PROFILES/GET_PROFILE";
 export const PROFILE_ERROR = "PLUTO/PROFILES/PROFILE_ERROR";
 export const CLEAR_PROFILE = "PLUTO/PROFILES/CLEAR_PROFILE";
 export const UPDATE_PROFILE = "PLUTO/PROFILES/UPDATE_PROFILE";
+export const GET_PROFILES = 'PLUTO/PROFILES/GET_PROFILES';
+export const GET_REPOS = 'PLUTO/PROFILES/GET_REPOS';
+export const NO_REPOS = 'PLUTO/PROFILES/NO_REPOS';
 
 // Reducer
 

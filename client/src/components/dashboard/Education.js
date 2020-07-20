@@ -2,9 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import Moment from "react-moment";
 import moment from "moment";
-
 import PropTypes from "prop-types";
 import { deleteEducation } from "../../redux/modules/profile";
+
 const Education = ({ education, deleteEducation }) => {
   const educations = education.map((edu) => (
     <ti key={edu._id}>

@@ -1,33 +1,29 @@
-// REDUX STORE
 
-// Modules
-import { createStore, applyMiddleware, combineReducers } from "redux";
-import { createLogger } from "redux-logger";
-import thunk from "redux-thunk";
-import { default as alerts } from "./modules/alert";
-import { default as auth } from "./modules/auth";
-import { default as profile } from "./modules/profile";
-// Middleware
-const loggerMiddleware = createLogger();
-const createStoreWithMiddleware = applyMiddleware(
-  thunk,
-  loggerMiddleware // <- Not in production
-)(createStore);
+import { createStore, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import thunk from 'redux-thunk';
+import rootReducer from './modules';
+import setAuthToken from '../utils/setAuthToken';
 
-// Main Reducer
-const reducer = combineReducers({
-  alerts,
-  auth,
-  profile,
+const initialState = {};
+
+const middleware = [thunk];
+
+const store = createStore(
+  rootReducer,
+  initialState,
+  composeWithDevTools(applyMiddleware(...middleware))
+);
+
+let currentState = store.getState();
+
+store.subscribe(() => {
+  let previousState = currentState;
+  currentState = store.getState();
+  if (previousState.auth.token !== currentState.auth.token) {
+    const token = currentState.auth.token;
+    setAuthToken(token);
+  }
 });
 
-// Create store
-const store = ((initialState = {}) =>
-  createStoreWithMiddleware(
-    reducer,
-    initialState,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() // <- Not in production
-  ))();
-
-// Export to ./src/App.js
 export default store;
