@@ -4,9 +4,12 @@ const router = Router();
 const auth = require("../../middleware/auth");
 const Profile = require("../../models/Profile");
 const User = require("../../models/Profile");
+const Posts = require("../../models/Post");
+
 const request = require("request");
 const { githubClientId, githubClientSecret } = require("../../config");
 const { validationResult, check } = require("express-validator");
+const Post = require("../../models/Post");
 const profileValidator = [
   check("status", "Status is required.").not().isEmpty(),
   check("skills", "Skills is required.").not().isEmpty(),
@@ -126,7 +129,7 @@ router.post("/", [auth, profileValidator], async (req, res) => {
     }
     // Create if not found
     profile = new Profile(profileFeilds);
-    await profile.save();
+    profile = await profile.save();
     return res.json(profile);
   } catch (err) {
     console.error(err.message);
@@ -138,14 +141,18 @@ router.post("/", [auth, profileValidator], async (req, res) => {
 // @desc  Delete User profile.
 // @access Private
 router.delete("/", auth, async (req, res) => {
+
   try {
+    // Remove Posts
+    await Post.deleteMany({user: req.user.id})
+
     // Remove Profile
     await Profile.findOneAndRemove({ user: req.user.id });
 
     // Remove User
     await User.findOneAndRemove({ _id: req.user.id });
 
-    return res.json({ msg: "User Deleted" });
+    return res.json({ msg: "Profile Deleted" });
   } catch (err) {
     console.error(err.message);
     return res.status(500).status({ msg: "Server Error" });
