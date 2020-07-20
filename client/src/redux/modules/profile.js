@@ -15,8 +15,6 @@ export const PROFILE_ERROR = "PLUTO/PROFILES/PROFILE_ERROR";
 export const CLEAR_PROFILE = "PLUTO/PROFILES/CLEAR_PROFILE";
 export const UPDATE_PROFILE = "PLUTO/PROFILES/UPDATE_PROFILE";
 
-
-
 // Reducer
 const initialState = {
   profile: null,
@@ -53,8 +51,6 @@ export default (state = initialState, { type, payload }) => {
       return state;
   }
 };
-
-
 
 // Action Creators
 export const getCurrentProfile = () => async (dispatch) => {
@@ -191,7 +187,7 @@ export const deleteEducation = (id) => async (dispatch) => {
 export const deleteAccount = (id) => async (dispatch) => {
   if (window.confirm("Are you sure? This can NOT be undone.")) {
     try {
-      const res = await axios.delete("/api/profile/");
+      await axios.delete("/api/profile/");
       dispatch({
         type: CLEAR_PROFILE,
       });

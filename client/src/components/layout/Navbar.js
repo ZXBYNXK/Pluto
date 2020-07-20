@@ -33,12 +33,9 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   );
   return (
     <nav className="navbar bg-dark">
-      <h1>
         <Link to="/">
           <Logo />
-          <span style={{fontSize:"2.4rem", position: "absolute"}}>Pluto</span>
         </Link>
-      </h1>
       {!loading && (
         <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
       )}

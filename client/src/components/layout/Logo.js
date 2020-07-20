@@ -3,21 +3,27 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Spinner from "./Spinner";
 import logo from "../../img/logo.png";
-const Logo = ({ auth: { loading } }) =>
+const Logo = ({ loading }) =>
   loading ? (
-    <Spinner />
+    <div style={{ display: "flex" }}>
+      <Spinner />
+      <span style={{ fontSize: "2rem" }}>Pluto</span>
+    </div>
   ) : (
-    <img
-      style={{ margin: "1rem", minWidth: "2rem", maxWidth:"3rem", borderRadius: "1rem", }}
-      alt="Logo"
-      src={logo}
-    />
+    <div style={{ display: "flex" }}>
+      <img
+        style={{ minWidth: "2rem", maxWidth: "3rem", borderRadius: "1rem" }}
+        alt="Logo"
+        src={logo}
+      />
+      <span style={{ fontSize: "2rem" }}>Pluto</span>
+    </div>
   );
 
 Logo.propTypes = {
   loading: PropTypes.bool.isRequired,
 };
 
-const mstp = (state) => ({ auth: state.auth });
+const mstp = (state) => ({ loading: state.auth.loading });
 
 export default connect(mstp)(Logo);

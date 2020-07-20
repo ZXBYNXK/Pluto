@@ -1,8 +1,8 @@
 import React from "react";
+import { connect } from "react-redux";
 import Moment from "react-moment";
 import PropTypes from "prop-types";
 import { deleteEducation } from "../../redux/modules/profile";
-
 const Education = ({ education }) => {
   const educations = education.map((edu) => (
     <ti key={edu._id}>
@@ -48,4 +48,4 @@ Education.propTypes = {
   deleteEducation: PropTypes.func.isRequired,
 };
 
-export default connect(null, { deleteEducation })(Experience);
+export default connect(null, { deleteEducation })(Education);
