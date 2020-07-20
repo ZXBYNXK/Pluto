@@ -1,9 +1,9 @@
 import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {addEducation} from "../../redux/modules/profile";
-const AddEducation = ({addEducation}) => {
+const AddEducation = ({addEducation, history}) => {
   const [formData, setFormData] = useState({
     school: "",
     degree: "",
@@ -13,7 +13,6 @@ const AddEducation = ({addEducation}) => {
     current: false,
     description: "",
   });
-  const [toDateDisabled, toggleDisabled] = useState(false);
   const { school, degree, fieldOfStudy, from, to, current, description } = formData;
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -27,7 +26,7 @@ const AddEducation = ({addEducation}) => {
       <small>* = required field</small>
       <form className="form" onSubmit={(e) => {
           e.preventDefault();
-          addEducation(formData)
+          addEducation(formData, history)
       }}>
         <div className="form-group">
           <input
@@ -35,7 +34,7 @@ const AddEducation = ({addEducation}) => {
             placeholder="* School or Bootcamp"
             name="school"
             value={school}
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
             required
           />
         </div>
@@ -46,7 +45,7 @@ const AddEducation = ({addEducation}) => {
             placeholder="* Degree"
             name="degree"
             value={degree}
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
             required
           />
         </div>
@@ -57,7 +56,7 @@ const AddEducation = ({addEducation}) => {
             placeholder="Field of study"
             name="fieldOfStudy"
             value={fieldOfStudy}
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
           />
         </div>
 
@@ -68,7 +67,7 @@ const AddEducation = ({addEducation}) => {
             type="date"
             name="from"
             value={from}
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
           />
         </div>
 
@@ -94,7 +93,7 @@ const AddEducation = ({addEducation}) => {
             type="date"
             name="to"
             value={to}
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
             disabled={toDateDisabled ? 'disabled' : ''}
           />
         </div>
@@ -106,7 +105,7 @@ const AddEducation = ({addEducation}) => {
             rows="5"
             placeholder="Job Description"
             value={description}
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
           ></textarea>
         </div>
 
@@ -124,4 +123,4 @@ AddEducation.propTypes = {
   addEducation: PropTypes.func.isRequired,
 };
 
-export default connect(null, { addEducation })(withRouter(AddEducation));
+export default connect(null, { addEducation })(AddEducation);
