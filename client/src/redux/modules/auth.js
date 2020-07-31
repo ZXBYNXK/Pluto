@@ -1,10 +1,4 @@
-// REDUCER FILE
-
-// API
-import api from '../../utils/api';
-
-
-// External Files
+import api from "../../utils/api";
 import { setAlert } from "./alert";
 
 // Action Types
@@ -19,36 +13,34 @@ export const ACCOUNT_DELETED = "PLUTO/AUTH/ACCOUNT_DELETED";
 
 // Reducer
 const initialState = {
-  token: localStorage.getItem('token'),
+  token: localStorage.getItem("token"),
   isAuthenticated: null,
   loading: true,
-  user: null
+  user: null,
 };
 
-export default function (state = initialState, action) {
-  const { type, payload } = action;
-
+export default (state = initialState, { type, payload }) => {
   switch (type) {
     case USER_LOADED:
       return {
         ...state,
         isAuthenticated: true,
         loading: false,
-        user: payload
+        user: payload,
       };
     case REGISTER_SUCCESS:
       return {
         ...state,
         ...payload,
         isAuthenticated: true,
-        loading: false
+        loading: false,
       };
     case LOGIN_SUCCESS:
       return {
         ...state,
         ...payload,
         isAuthenticated: true,
-        loading: false
+        loading: false,
       };
     case ACCOUNT_DELETED:
       return {
@@ -56,8 +48,9 @@ export default function (state = initialState, action) {
         token: null,
         isAuthenticated: false,
         loading: false,
-        user: null
+        user: null,
       };
+    case REGISTER_FAIL:
     case AUTH_ERROR:
     case LOGOUT:
       return {
@@ -65,77 +58,66 @@ export default function (state = initialState, action) {
         token: null,
         isAuthenticated: false,
         loading: false,
-        user: null
+        user: null,
       };
     default:
       return state;
   }
-}
+};
 
-// - Action creators
-export const loadUser = () => async dispatch => {
+
+// Action Creators
+export const loadUser = () => async (dispatch) => {
   try {
-    const res = await api.get('/auth');
-
+    const res = await api.get("/auth");
     dispatch({
       type: USER_LOADED,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     dispatch({
-      type: AUTH_ERROR
+      type: AUTH_ERROR,
     });
   }
 };
-
 // Register User
-export const register = formData => async dispatch => {
+export const register = (formData) => async (dispatch) => {
   try {
-    const res = await api.post('/users', formData);
-
+    const res = await api.post("/users", formData);
     dispatch({
       type: REGISTER_SUCCESS,
-      payload: res.data
+      payload: res.data,
     });
     dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
-
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
     }
-
     dispatch({
-      type: REGISTER_FAIL
+      type: REGISTER_FAIL,
     });
   }
 };
 
 // Login User
-export const login = (email, password) => async dispatch => {
-  const body = { email, password };
-
+export const login = (email, password) => async (dispatch) => {
   try {
-    const res = await api.post('/auth', body);
-
+    const res = await api.post("/auth", { email, password });
     dispatch({
       type: LOGIN_SUCCESS,
-      payload: res.data
+      payload: res.data,
     });
-
     dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
-
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
     }
-
     dispatch({
-      type: LOGIN_FAIL
+      type: LOGIN_FAIL,
     });
   }
 };
-
 // Logout
-export const logout = () => ({ type: LOGOUT });
+export const logout = () => async (dispatch) => dispatch({ type: LOGOUT });

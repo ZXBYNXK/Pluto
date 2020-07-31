@@ -1,9 +1,9 @@
 import React, { Fragment } from "react";
+import Logo from "./Logo";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout } from "../../redux/modules/auth";
-import Logo from "./Logo";
 const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const guestLinks = (
     <ul>
@@ -48,8 +48,8 @@ Navbar.propTypes = {
   logout: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
+const mstp = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { logout })(Navbar);
+export default connect(mstp, { logout })(Navbar);
