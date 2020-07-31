@@ -1,9 +1,4 @@
-// REDUCER FILE
-
-// API
 import api from "../../utils/api";
-
-// External Files
 import { setAlert } from "./alert";
 
 // Action Types
@@ -23,6 +18,7 @@ const initialState = {
   loading: true,
   user: null,
 };
+
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case USER_LOADED:
@@ -54,6 +50,7 @@ export default (state = initialState, { type, payload }) => {
         loading: false,
         user: null,
       };
+    case REGISTER_FAIL:
     case AUTH_ERROR:
     case LOGOUT:
       return {
@@ -68,11 +65,11 @@ export default (state = initialState, { type, payload }) => {
   }
 };
 
-// Action creators
+
+// Action Creators
 export const loadUser = () => async (dispatch) => {
   try {
     const res = await api.get("/auth");
-
     dispatch({
       type: USER_LOADED,
       payload: res.data,
@@ -83,12 +80,10 @@ export const loadUser = () => async (dispatch) => {
     });
   }
 };
-
 // Register User
 export const register = (formData) => async (dispatch) => {
   try {
     const res = await api.post("/users", formData);
-
     dispatch({
       type: REGISTER_SUCCESS,
       payload: res.data,
@@ -96,11 +91,9 @@ export const register = (formData) => async (dispatch) => {
     dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
-
     if (errors) {
       errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
     }
-
     dispatch({
       type: REGISTER_FAIL,
     });
@@ -128,5 +121,3 @@ export const login = (email, password) => async (dispatch) => {
 };
 // Logout
 export const logout = () => async (dispatch) => dispatch({ type: LOGOUT });
-
-

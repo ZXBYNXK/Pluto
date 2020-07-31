@@ -1,9 +1,9 @@
 import React, { Fragment } from "react";
+import Logo from "./Logo";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout } from "../../redux/modules/auth";
-import Logo from "./Logo";
 const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const guestLinks = (
     <ul>

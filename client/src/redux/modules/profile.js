@@ -29,7 +29,7 @@ const initialState = {
   error: {},
 };
 
-export default function (state = initialState, action) {
+export default (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -59,17 +59,17 @@ export default function (state = initialState, action) {
         profile: null,
         repos: [],
       };
-    // case GET_REPOS:
-    //   return {
-    //     ...state,
-    //     repos: payload,
-    //     loading: false,
-    //   };
-    // case NO_REPOS:
-    //   return {
-    //     ...state,
-    //     repos: [],
-    //   };
+    case GET_REPOS:
+      return {
+        ...state,
+        repos: payload,
+        loading: false,
+      };
+    case NO_REPOS:
+      return {
+        ...state,
+        repos: [],
+      };
     default:
       return state;
   }
@@ -86,6 +86,7 @@ export const getCurrentProfile = () => async (dispatch) => {
       type: GET_PROFILE,
       payload: res.data,
     });
+    
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR,
