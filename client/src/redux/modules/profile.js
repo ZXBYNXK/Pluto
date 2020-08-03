@@ -1,8 +1,9 @@
 // REDUCER FILE
 
 // Modules
-// API
-import api from '../../utils/api';
+// api
+import axios from 'axios';
+
 
 // Ext Action Creators
 import { setAlert } from "./alert";
@@ -18,6 +19,12 @@ export const UPDATE_PROFILE = "PLUTO/PROFILES/UPDATE_PROFILE";
 export const GET_PROFILES = 'PLUTO/PROFILES/GET_PROFILES';
 export const GET_REPOS = 'PLUTO/PROFILES/GET_REPOS';
 export const NO_REPOS = 'PLUTO/PROFILES/NO_REPOS';
+const api = axios.create({
+  baseURL: '/api',
+  headers: {
+    'Content-Type': 'application/json'
+  }
+});
 
 // Reducer
 

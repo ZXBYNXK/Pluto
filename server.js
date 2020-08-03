@@ -17,7 +17,8 @@ const posts = require("./routes/api/posts");
 // Needed Middleware
 server.use(express.json());
 
-
+const cors = require("cors");
+server.use(cors());
 // Routing
 server.get("/", (req, res) => res.status(200).json({ test: true }));
 server.use("/api/users", users);
