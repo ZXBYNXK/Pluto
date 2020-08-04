@@ -29,13 +29,13 @@ const Dashboard = ({
           <Experience experience={profile.experience} />
           <Education education={profile.education} />
           <div className="my-2">
-          <button className="btn btn-danger" onClick={() => deleteAccount()}>Delete Account</button>
+          <button className="btn btn-danger" onClick={() => deleteAccount()}>Delete</button>
           <i className="fas fa user-mius"></i>
           </div>
         </Fragment>
       ) : (
         <Fragment>
-          Please create a profile <Link to="/create-profile">here</Link>
+        <Link to="/create-profile">Create your profile</Link>
         </Fragment>
       )}
     </Fragment>

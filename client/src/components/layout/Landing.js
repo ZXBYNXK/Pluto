@@ -33,5 +33,5 @@ const Landing = ({ isAuthenticated }) => {
 Landing.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
 };
-const mstp = (state) => ({ isAuthenticated: state.auth.isAuthenticated });
+const mstp = (state) => ({ isAuthenticated: state.auth.isAuthenticated});
 export default connect(mstp)(Landing);

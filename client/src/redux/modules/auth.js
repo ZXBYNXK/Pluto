@@ -21,7 +21,7 @@ export const ACCOUNT_DELETED = "PLUTO/AUTH/ACCOUNT_DELETED";
 // Reducer
 const initialState = {
   token: localStorage.getItem("token"),
-  isAuthenticated: null,
+  isAuthenticated: false,
   loading: true,
   user: null,
 };
@@ -113,7 +113,7 @@ export const login = (email, password) => async (dispatch) => {
     const res = await api.post("/auth", { email, password });
     dispatch({
       type: LOGIN_SUCCESS,
-      payload: res.data,
+      payload: { token: res.data },
     });
     setAuthToken(res.data);
     dispatch(loadUser());
