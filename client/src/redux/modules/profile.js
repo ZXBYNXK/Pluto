@@ -2,7 +2,7 @@
 
 // Modules
 // api
-import axios from 'axios';
+import api from '../../utils/api';
 
 
 // Ext Action Creators
@@ -19,12 +19,7 @@ export const UPDATE_PROFILE = "PLUTO/PROFILES/UPDATE_PROFILE";
 export const GET_PROFILES = 'PLUTO/PROFILES/GET_PROFILES';
 export const GET_REPOS = 'PLUTO/PROFILES/GET_REPOS';
 export const NO_REPOS = 'PLUTO/PROFILES/NO_REPOS';
-const api = axios.create({
-  baseURL: '/api',
-  headers: {
-    'Content-Type': 'application/json'
-  }
-});
+
 
 // Reducer
 
@@ -87,7 +82,7 @@ export default (state = initialState, action) => {
 // Get current users profile
 export const getCurrentProfile = () => async (dispatch) => {
   try {
-    const res = await api.get("/profile/me");
+    const res = await api.get("/profiles/me");
 
     dispatch({
       type: GET_PROFILE,
@@ -107,7 +102,7 @@ export const getProfiles = () => async (dispatch) => {
   dispatch({ type: CLEAR_PROFILE });
 
   try {
-    const res = await api.get("/profile");
+    const res = await api.get("/profiles");
 
     dispatch({
       type: GET_PROFILES,
@@ -159,7 +154,7 @@ export const createProfile = (formData, history, edit = false) => async (
   dispatch
 ) => {
   try {
-    const res = await api.post("/profile", formData);
+    const res = await api.post("/profiles", formData);
 
     dispatch({
       type: GET_PROFILE,
@@ -188,7 +183,7 @@ export const createProfile = (formData, history, edit = false) => async (
 // Add Experience
 export const addExperience = (formData, history) => async (dispatch) => {
   try {
-    const res = await api.put("/profile/experience", formData);
+    const res = await api.put("/profiles/experience", formData);
 
     dispatch({
       type: UPDATE_PROFILE,
@@ -215,7 +210,7 @@ export const addExperience = (formData, history) => async (dispatch) => {
 // Add Education
 export const addEducation = (formData, history) => async (dispatch) => {
   try {
-    const res = await api.put("/profile/education", formData);
+    const res = await api.put("/profiles/education", formData);
 
     dispatch({
       type: UPDATE_PROFILE,
@@ -242,7 +237,7 @@ export const addEducation = (formData, history) => async (dispatch) => {
 // Delete experience
 export const deleteExperience = (id) => async (dispatch) => {
   try {
-    const res = await api.delete(`/profile/experience/${id}`);
+    const res = await api.delete(`/profiles/experience/${id}`);
 
     dispatch({
       type: UPDATE_PROFILE,
@@ -261,7 +256,7 @@ export const deleteExperience = (id) => async (dispatch) => {
 // Delete education
 export const deleteEducation = (id) => async (dispatch) => {
   try {
-    const res = await api.delete(`/profile/education/${id}`);
+    const res = await api.delete(`/profiles/education/${id}`);
 
     dispatch({
       type: UPDATE_PROFILE,
@@ -281,7 +276,7 @@ export const deleteEducation = (id) => async (dispatch) => {
 export const deleteAccount = () => async (dispatch) => {
   if (window.confirm("Are you sure? This can NOT be undone!")) {
     try {
-      await api.delete("/profile");
+      await api.delete("/profiles");
 
       dispatch({ type: CLEAR_PROFILE });
       dispatch({ type: ACCOUNT_DELETED });

@@ -1,12 +1,6 @@
-import axios from "axios";
+import api from "../../utils/api";
 import { setAlert } from "./alert";
 
-const api = axios.create({
-  baseURL: '/api',
-  headers: {
-    'Content-Type': 'application/json'
-  }
-});
 
 export const GET_POSTS = "PLUTO/POST/GET_POSTS";
 export const GET_POST = "PLUTO/POST/GET_POST";

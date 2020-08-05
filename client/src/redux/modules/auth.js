@@ -1,12 +1,6 @@
-import axios from "axios";
+import api from "../../utils/api";
 import { setAlert } from "./alert";
 import setAuthToken from "../../utils/setAuthToken";
-const api = axios.create({
-  baseURL: "http://localhost:5000/api",
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
 
 // Action Types
 export const REGISTER_SUCCESS = "PLUTO/AUTH/REGISTER_SUCCESS";
@@ -76,6 +70,7 @@ export default (state = initialState, { type, payload }) => {
 export const loadUser = () => async (dispatch) => {
   try {
     const res = await api.get("/auth");
+    console.log(res.data)
     dispatch({
       type: USER_LOADED,
       payload: res.data,

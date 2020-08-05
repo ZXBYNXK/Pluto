@@ -1,3 +1,6 @@
+// TO-DO: remove .save() from the picture.
+
+
 // ROUTE FILE
 const { Router } = require("express");
 const router = Router();
@@ -159,6 +162,7 @@ router.put("/experience", [auth, expeirenceValidator], async (req, res) => {
     description,
   };
   try {
+        // TO-DO: remove .save() from the picture.
     let profile = await Profile.findOne({ user: req.user.id });
     console.log(req.user.id);
     profile.experience.unshift(newExp);
@@ -197,6 +201,7 @@ router.put("/education", [auth, educationValidator], async (req, res) => {
     description,
   };
   try {
+        // TO-DO: remove .save() from the picture.
     let profile = await Profile.findOne({ user: req.user.id });
     console.log(profile);
     profile.education.unshift(newEdu);
@@ -235,6 +240,8 @@ router.delete("/", auth, async (req, res) => {
 // @access Private
 router.delete("/experience/:exp_id", auth, async (req, res) => {
   try {
+        
+
     let profile = await Profile.findOne({ user: req.user.id });
     const removeIndex = profile.experience
       .map((item) => item.id)
