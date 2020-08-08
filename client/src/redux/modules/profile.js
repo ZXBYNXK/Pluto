@@ -183,7 +183,7 @@ export const createProfile = (formData, history, edit = false) => async (
 // Add Experience
 export const addExperience = (formData, history) => async (dispatch) => {
   try {
-    const res = await api.put("/profiles/experience", formData);
+    const res = await api.put("/profiles/experience", {...formData.experience});
 
     dispatch({
       type: UPDATE_PROFILE,
@@ -194,6 +194,7 @@ export const addExperience = (formData, history) => async (dispatch) => {
 
     history.push("/dashboard");
   } catch (err) {
+    console.log(err)
     const errors = err.response.data.errors;
 
     if (errors) {
