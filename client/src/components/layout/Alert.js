@@ -4,15 +4,15 @@ import { connect } from "react-redux";
 
 const Alert = ({ alerts }) => (
   <div style={{ display: "flex", width: "100%" }}>
-    {alerts !== null &&
-      alerts.length > 0 &&
-      alerts.map(({ id, type, msg }) => (
-        <Fragment>
-          <div key={id} className={`alert alert-type${type}`}>
-            {msg}
-          </div>
-        </Fragment>
-      ))}
+    <Fragment>
+      {alerts !== null &&
+        alerts.length > 0 &&
+        alerts.map(({ id, type, msg }) => (
+            <div key={id} className={`alert alert-type${type}`}>
+              {msg}
+            </div>
+        ))}
+    </Fragment>
   </div>
 );
 Alert.propTypes = {
