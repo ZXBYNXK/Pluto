@@ -33,6 +33,7 @@ const educationValidator = [
 // @desc  Get single profile
 // @access Private
 router.get("/me", auth, async (req, res) => {
+  console.log(req.user.id)
   try {
     const profile = await Profile.findOne({
       user: req.user.id,
@@ -132,7 +133,7 @@ router.post("/", [auth, profileValidator], async (req, res) => {
       return res.json(profile);
     }
     // Create if not found
-    profile = new Profile(profileFeilds);
+    profile = new Profile({...profileFeilds, user: req.user.id});
     profile = await profile.save();
     return res.json(profile);
   } catch (err) {
