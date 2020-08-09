@@ -1,0 +1,8 @@
+node: nodejs12
+handlers:
+  - url: /
+    static_files: buld/index.html
+    upload: build/index.html
+  
+  - url: /
+    static_dir: build
