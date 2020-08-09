@@ -1,4 +1,4 @@
-node: nodejs12
+runtime: nodejs12
 handlers:
   - url: /
     static_files: buld/index.html
