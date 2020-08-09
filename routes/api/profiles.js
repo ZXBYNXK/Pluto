@@ -50,7 +50,8 @@ router.get("/me", auth, async (req, res) => {
 // @route GET api/profiles/user/:user_id
 // @desc  Get all profiles
 // @access Public
-router.get("/user/:user_id", async (req, res) => {
+router.get("/user/:id", async (req, res) => {
+  console.log(req.params.id)
   try {
     const profile = await Profile.findOne({
       user: req.params.id,

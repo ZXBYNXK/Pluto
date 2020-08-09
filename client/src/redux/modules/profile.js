@@ -119,7 +119,7 @@ export const getProfiles = () => async (dispatch) => {
 // Get profile by ID
 export const getProfileById = (userId) => async (dispatch) => {
   try {
-    const res = await api.get(`/profile/user/${userId}`);
+    const res = await api.get(`/profiles/user/${userId}`);
 
     dispatch({
       type: GET_PROFILE,

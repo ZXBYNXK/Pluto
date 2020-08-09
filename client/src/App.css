@@ -34,7 +34,7 @@ body {
 
 a {
 
-  color: #5441ff;
+  color: #3b5998;
 
   text-decoration: none;
 
@@ -124,7 +124,7 @@ img {
 
 .text-primary {
 
-  color: #5441ff;
+  color: #3b5998;
 
 }
 
@@ -309,7 +309,7 @@ img {
 
 .alert-primary {
 
-  background: #5441ff;
+  background: #3b5998;
 
   color: #000000;
 
@@ -604,7 +604,7 @@ button {
 
   top: 0;
 
-  border-bottom: solid 1px #5441ff;
+  border-bottom: solid 1px #3b5998;
 
 
 }
@@ -912,7 +912,7 @@ card p:hover {
 
 .post-form .post-form-header {
 
-  background: #5441ff;
+  background: #3b5998;
 
   padding: 0.5rem;
 
@@ -954,7 +954,7 @@ card p:hover {
 
   background: #f4f4f4;
 
-  color: #5441ff;
+  color: #3b5998;
 
   padding: 0.1rem 0.2rem;
 
