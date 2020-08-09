@@ -1,8 +1,9 @@
 // REDUCER FILE
 
 // Modules
-// API
+// api
 import api from '../../utils/api';
+
 
 // Ext Action Creators
 import { setAlert } from "./alert";
@@ -18,6 +19,8 @@ export const UPDATE_PROFILE = "PLUTO/PROFILES/UPDATE_PROFILE";
 export const GET_PROFILES = 'PLUTO/PROFILES/GET_PROFILES';
 export const GET_REPOS = 'PLUTO/PROFILES/GET_REPOS';
 export const NO_REPOS = 'PLUTO/PROFILES/NO_REPOS';
+export const LOADING_PROFILE = 'PLUTO/PROFILES/LOADING_PROFILE';
+
 
 // Reducer
 
@@ -25,7 +28,7 @@ const initialState = {
   profile: null,
   profiles: [],
   repos: [],
-  loading: true,
+  loading: false,
   error: {},
 };
 
@@ -33,6 +36,11 @@ export default (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
+    case LOADING_PROFILE:
+      return {
+        ...state,
+        loading: true
+      }
     case GET_PROFILE:
     case UPDATE_PROFILE:
       return {
@@ -80,7 +88,8 @@ export default (state = initialState, action) => {
 // Get current users profile
 export const getCurrentProfile = () => async (dispatch) => {
   try {
-    const res = await api.get("/profile/me");
+    dispatch({type: LOADING_PROFILE});
+    const res = await api.get("/profiles/me");
 
     dispatch({
       type: GET_PROFILE,
@@ -100,7 +109,9 @@ export const getProfiles = () => async (dispatch) => {
   dispatch({ type: CLEAR_PROFILE });
 
   try {
-    const res = await api.get("/profile");
+    dispatch({type: LOADING_PROFILE});
+
+    const res = await api.get("/profiles");
 
     dispatch({
       type: GET_PROFILES,
@@ -117,7 +128,9 @@ export const getProfiles = () => async (dispatch) => {
 // Get profile by ID
 export const getProfileById = (userId) => async (dispatch) => {
   try {
-    const res = await api.get(`/profile/user/${userId}`);
+    dispatch({type: LOADING_PROFILE});
+
+    const res = await api.get(`/profiles/user/${userId}`);
 
     dispatch({
       type: GET_PROFILE,
@@ -134,7 +147,9 @@ export const getProfileById = (userId) => async (dispatch) => {
 // Get Github repos
 export const getGithubRepos = (username) => async (dispatch) => {
   try {
-    const res = await api.get(`/profile/github/${username}`);
+    dispatch({type: LOADING_PROFILE});
+
+    const res = await api.get(`/profiles/github/${username}`);
 
     dispatch({
       type: GET_REPOS,
@@ -152,7 +167,9 @@ export const createProfile = (formData, history, edit = false) => async (
   dispatch
 ) => {
   try {
-    const res = await api.post("/profile", formData);
+    dispatch({type: LOADING_PROFILE});
+
+    const res = await api.post("/profiles", formData);
 
     dispatch({
       type: GET_PROFILE,
@@ -181,7 +198,9 @@ export const createProfile = (formData, history, edit = false) => async (
 // Add Experience
 export const addExperience = (formData, history) => async (dispatch) => {
   try {
-    const res = await api.put("/profile/experience", formData);
+    dispatch({type: LOADING_PROFILE});
+
+    const res = await api.put("/profiles/experience", {...formData.experience});
 
     dispatch({
       type: UPDATE_PROFILE,
@@ -208,7 +227,9 @@ export const addExperience = (formData, history) => async (dispatch) => {
 // Add Education
 export const addEducation = (formData, history) => async (dispatch) => {
   try {
-    const res = await api.put("/profile/education", formData);
+    dispatch({type: LOADING_PROFILE});
+
+    const res = await api.put("/profiles/education", formData);
 
     dispatch({
       type: UPDATE_PROFILE,
@@ -235,7 +256,9 @@ export const addEducation = (formData, history) => async (dispatch) => {
 // Delete experience
 export const deleteExperience = (id) => async (dispatch) => {
   try {
-    const res = await api.delete(`/profile/experience/${id}`);
+    dispatch({type: LOADING_PROFILE});
+
+    const res = await api.delete(`/profiles/experience/${id}`);
 
     dispatch({
       type: UPDATE_PROFILE,
@@ -254,7 +277,9 @@ export const deleteExperience = (id) => async (dispatch) => {
 // Delete education
 export const deleteEducation = (id) => async (dispatch) => {
   try {
-    const res = await api.delete(`/profile/education/${id}`);
+    dispatch({type: LOADING_PROFILE});
+
+    const res = await api.delete(`/profiles/education/${id}`);
 
     dispatch({
       type: UPDATE_PROFILE,
@@ -274,7 +299,9 @@ export const deleteEducation = (id) => async (dispatch) => {
 export const deleteAccount = () => async (dispatch) => {
   if (window.confirm("Are you sure? This can NOT be undone!")) {
     try {
-      await api.delete("/profile");
+      dispatch({type: LOADING_PROFILE});
+
+      await api.delete("/profiles");
 
       dispatch({ type: CLEAR_PROFILE });
       dispatch({ type: ACCOUNT_DELETED });

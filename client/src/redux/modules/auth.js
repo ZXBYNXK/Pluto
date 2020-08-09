@@ -1,5 +1,6 @@
 import api from "../../utils/api";
 import { setAlert } from "./alert";
+import setAuthToken from "../../utils/setAuthToken";
 
 // Action Types
 export const REGISTER_SUCCESS = "PLUTO/AUTH/REGISTER_SUCCESS";
@@ -14,7 +15,7 @@ export const ACCOUNT_DELETED = "PLUTO/AUTH/ACCOUNT_DELETED";
 // Reducer
 const initialState = {
   token: localStorage.getItem("token"),
-  isAuthenticated: null,
+  isAuthenticated: false,
   loading: true,
   user: null,
 };
@@ -65,7 +66,6 @@ export default (state = initialState, { type, payload }) => {
   }
 };
 
-
 // Action Creators
 export const loadUser = () => async (dispatch) => {
   try {
@@ -80,20 +80,21 @@ export const loadUser = () => async (dispatch) => {
     });
   }
 };
+
 // Register User
 export const register = (formData) => async (dispatch) => {
   try {
     const res = await api.post("/users", formData);
     dispatch({
       type: REGISTER_SUCCESS,
-      payload: res.data,
+      payload: { token: res.data },
     });
+
+    setAuthToken(res.data);
     dispatch(loadUser());
   } catch (err) {
-    const errors = err.response.data.errors;
-    if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
-    }
+    dispatch(setAlert("Invalid input.", "danger"));
+
     dispatch({
       type: REGISTER_FAIL,
     });
@@ -106,18 +107,17 @@ export const login = (email, password) => async (dispatch) => {
     const res = await api.post("/auth", { email, password });
     dispatch({
       type: LOGIN_SUCCESS,
-      payload: res.data,
+      payload: { token: res.data },
     });
+    setAuthToken(res.data);
     dispatch(loadUser());
   } catch (err) {
-    const errors = err.response.data.errors;
-    if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
-    }
+    dispatch(setAlert("Invalid input.", "danger"));
     dispatch({
       type: LOGIN_FAIL,
     });
   }
 };
+
 // Logout
 export const logout = () => async (dispatch) => dispatch({ type: LOGOUT });

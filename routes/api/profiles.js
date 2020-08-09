@@ -1,3 +1,6 @@
+// TO-DO: remove .save() from the picture.
+
+
 // ROUTE FILE
 const { Router } = require("express");
 const router = Router();
@@ -46,7 +49,7 @@ router.get("/me", auth, async (req, res) => {
 // @route GET api/profiles/user/:user_id
 // @desc  Get all profiles
 // @access Public
-router.get("/user/:user_id", async (req, res) => {
+router.get("/user/:id", async (req, res) => {
   try {
     const profile = await Profile.findOne({
       user: req.params.id,
@@ -129,8 +132,8 @@ router.post("/", [auth, profileValidator], async (req, res) => {
       return res.json(profile);
     }
     // Create if not found
-    profile = new Profile(profileFeilds);
-    profile = await profile.save();
+    profile = new Profile({...profileFeilds, user: req.user.id});
+    profile = await Profile.create(profile);
     return res.json(profile);
   } catch (err) {
     console.error(err.message);
@@ -159,8 +162,8 @@ router.put("/experience", [auth, expeirenceValidator], async (req, res) => {
     description,
   };
   try {
+        // TO-DO: remove .save() from the picture.
     let profile = await Profile.findOne({ user: req.user.id });
-    console.log(req.user.id);
     profile.experience.unshift(newExp);
     await profile.save();
     return res.json(profile);
@@ -197,8 +200,8 @@ router.put("/education", [auth, educationValidator], async (req, res) => {
     description,
   };
   try {
+        // TO-DO: remove .save() from the picture.
     let profile = await Profile.findOne({ user: req.user.id });
-    console.log(profile);
     profile.education.unshift(newEdu);
     await profile.save();
     return res.json(profile);
@@ -235,6 +238,8 @@ router.delete("/", auth, async (req, res) => {
 // @access Private
 router.delete("/experience/:exp_id", auth, async (req, res) => {
   try {
+        
+
     let profile = await Profile.findOne({ user: req.user.id });
     const removeIndex = profile.experience
       .map((item) => item.id)

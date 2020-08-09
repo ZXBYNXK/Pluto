@@ -64,7 +64,7 @@ const profileSchema = new Schema({
         },
         to: {
           type: Date,
-          required: true,
+          default: Date.now
         },
 
         // Current is if the User currently works for this employer
@@ -107,7 +107,7 @@ const profileSchema = new Schema({
         },
         to: {
           type: Date,
-          required: true,
+          default: Date.now
         },
 
         // If still attending school

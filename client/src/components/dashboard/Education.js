@@ -7,15 +7,17 @@ import { deleteEducation } from "../../redux/modules/profile";
 
 const Education = ({ education, deleteEducation }) => {
   const educations = education.map((edu) => (
-    <ti key={edu._id}>
+    <tr key={edu._id}>
       <td>{edu.school}</td>
       <td className="hide-sm">{edu.degree}</td>
-      <Moment fomat="YYYY/MM/DD">{moment.utc(edu.from)}</Moment>
+      <td>      
+        <Moment format="YYYY/MM/DD">{moment.utc(edu.from)}</Moment>
+      </td>
       <td>
         {edu.to === null ? (
           "Now"
         ) : (
-          <Moment fomat="YYYY/MM/DD">{moment.utc(edu.to)}</Moment>
+          <Moment format="YYYY/MM/DD">{moment.utc(edu.to)}</Moment>
         )}
       </td>
       <td>
@@ -27,17 +29,18 @@ const Education = ({ education, deleteEducation }) => {
           Delete
         </button>
       </td>
-    </ti>
+    </tr>
   ));
   return (
     <div>
-      <h2 className="my-2">education Credentials</h2>
+      <h2 className="my-2">Education Credentials</h2>
       <table className="table">
         <thead>
           <tr>
             <th>Company</th>
             <th className="hide-sm">Title</th>
-            <th className="hide-sm">Years</th>
+            <th className="hide-sm">From</th>
+            <th className="hide-sm">To</th>
           </tr>
         </thead>
         <tbody>{educations}</tbody>

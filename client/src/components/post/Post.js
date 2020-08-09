@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect } from 'react';
+import {useParams} from "react-router-dom"
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -9,9 +10,10 @@ import CommentItem from '../post/CommentItem';
 import { getPost } from '../../redux/modules/post';
 
 const Post = ({ getPost, post: { post, loading }, match }) => {
+  const params = useParams()
   useEffect(() => {
-    getPost(match.params.id);
-  }, [getPost, match.params.id]);
+    getPost(params.id);
+  }, [getPost, params.id]);
 
   return loading || post === null ? (
     <Spinner />

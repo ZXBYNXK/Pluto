@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -28,8 +28,7 @@ const ProfileForm = ({
   const [formData, setFormData] = useState(initialState);
 
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
-
-  useEffect(() => {
+  useCallback(() => {
     if (!profile) getCurrentProfile();
     if (!loading && profile) {
       const profileData = { ...initialState };
@@ -43,10 +42,8 @@ const ProfileForm = ({
         profileData.skills = profileData.skills.join(', ');
       setFormData(profileData);
     }
-  }, [loading, getCurrentProfile, profile]);
-
+  }, [loading, getCurrentProfile, profile])
   const {
-    company,
     website,
     location,
     status,
@@ -90,18 +87,6 @@ const ProfileForm = ({
           </select>
           <small className="form-text">
             Give us an idea of where you are at in your career
-          </small>
-        </div>
-        <div className="form-group">
-          <input
-            type="text"
-            placeholder="Company"
-            name="company"
-            value={company}
-            onChange={onChange}
-          />
-          <small className="form-text">
-            Could be your own company or one you work for
           </small>
         </div>
         <div className="form-group">

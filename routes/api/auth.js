@@ -1,5 +1,6 @@
 // ROUTE FILE
 const { Router } = require("express");
+
 const router = Router();
 
 //Bcryptjs
@@ -16,6 +17,7 @@ const userValidator = [
   check("email", "Email is required.").isEmail(),
   check("password", "Passoword is should be more than 6 charachters.").exists(),
 ];
+
 // Models
 const User = require("../../models/User");
 
