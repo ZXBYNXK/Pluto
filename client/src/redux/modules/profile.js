@@ -19,6 +19,7 @@ export const UPDATE_PROFILE = "PLUTO/PROFILES/UPDATE_PROFILE";
 export const GET_PROFILES = 'PLUTO/PROFILES/GET_PROFILES';
 export const GET_REPOS = 'PLUTO/PROFILES/GET_REPOS';
 export const NO_REPOS = 'PLUTO/PROFILES/NO_REPOS';
+export const LOADING_PROFILE = 'PLUTO/PROFILES/LOADING_PROFILE';
 
 
 // Reducer
@@ -27,7 +28,7 @@ const initialState = {
   profile: null,
   profiles: [],
   repos: [],
-  loading: true,
+  loading: false,
   error: {},
 };
 
@@ -35,6 +36,11 @@ export default (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
+    case LOADING_PROFILE:
+      return {
+        ...state,
+        loading: true
+      }
     case GET_PROFILE:
     case UPDATE_PROFILE:
       return {
@@ -82,6 +88,7 @@ export default (state = initialState, action) => {
 // Get current users profile
 export const getCurrentProfile = () => async (dispatch) => {
   try {
+    dispatch({type: LOADING_PROFILE});
     const res = await api.get("/profiles/me");
 
     dispatch({
@@ -102,6 +109,8 @@ export const getProfiles = () => async (dispatch) => {
   dispatch({ type: CLEAR_PROFILE });
 
   try {
+    dispatch({type: LOADING_PROFILE});
+
     const res = await api.get("/profiles");
 
     dispatch({
@@ -119,6 +128,8 @@ export const getProfiles = () => async (dispatch) => {
 // Get profile by ID
 export const getProfileById = (userId) => async (dispatch) => {
   try {
+    dispatch({type: LOADING_PROFILE});
+
     const res = await api.get(`/profiles/user/${userId}`);
 
     dispatch({
@@ -136,7 +147,9 @@ export const getProfileById = (userId) => async (dispatch) => {
 // Get Github repos
 export const getGithubRepos = (username) => async (dispatch) => {
   try {
-    const res = await api.get(`/profile/github/${username}`);
+    dispatch({type: LOADING_PROFILE});
+
+    const res = await api.get(`/profiles/github/${username}`);
 
     dispatch({
       type: GET_REPOS,
@@ -154,6 +167,8 @@ export const createProfile = (formData, history, edit = false) => async (
   dispatch
 ) => {
   try {
+    dispatch({type: LOADING_PROFILE});
+
     const res = await api.post("/profiles", formData);
 
     dispatch({
@@ -183,6 +198,8 @@ export const createProfile = (formData, history, edit = false) => async (
 // Add Experience
 export const addExperience = (formData, history) => async (dispatch) => {
   try {
+    dispatch({type: LOADING_PROFILE});
+
     const res = await api.put("/profiles/experience", {...formData.experience});
 
     dispatch({
@@ -194,7 +211,6 @@ export const addExperience = (formData, history) => async (dispatch) => {
 
     history.push("/dashboard");
   } catch (err) {
-    console.log(err)
     const errors = err.response.data.errors;
 
     if (errors) {
@@ -211,6 +227,8 @@ export const addExperience = (formData, history) => async (dispatch) => {
 // Add Education
 export const addEducation = (formData, history) => async (dispatch) => {
   try {
+    dispatch({type: LOADING_PROFILE});
+
     const res = await api.put("/profiles/education", formData);
 
     dispatch({
@@ -238,6 +256,8 @@ export const addEducation = (formData, history) => async (dispatch) => {
 // Delete experience
 export const deleteExperience = (id) => async (dispatch) => {
   try {
+    dispatch({type: LOADING_PROFILE});
+
     const res = await api.delete(`/profiles/experience/${id}`);
 
     dispatch({
@@ -257,6 +277,8 @@ export const deleteExperience = (id) => async (dispatch) => {
 // Delete education
 export const deleteEducation = (id) => async (dispatch) => {
   try {
+    dispatch({type: LOADING_PROFILE});
+
     const res = await api.delete(`/profiles/education/${id}`);
 
     dispatch({
@@ -277,6 +299,8 @@ export const deleteEducation = (id) => async (dispatch) => {
 export const deleteAccount = () => async (dispatch) => {
   if (window.confirm("Are you sure? This can NOT be undone!")) {
     try {
+      dispatch({type: LOADING_PROFILE});
+
       await api.delete("/profiles");
 
       dispatch({ type: CLEAR_PROFILE });

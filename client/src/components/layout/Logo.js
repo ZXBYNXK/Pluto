@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Spinner from "./Spinner";
@@ -7,6 +7,7 @@ const Logo = ({ loading }) =>
   loading ? (
     <div style={{ display: "flex" }}>
       <Spinner />
+      
       <span style={{ fontSize: "2rem" }}>Pluto</span>
     </div>
   ) : (
@@ -24,6 +25,6 @@ Logo.propTypes = {
   loading: PropTypes.bool.isRequired,
 };
 
-const mstp = (state) => ({ loading: state.auth.loading });
+const mstp = (state) => ({ loading: state.auth.loading || state.profile.loading || state.post.loading});
 
 export default connect(mstp)(Logo);

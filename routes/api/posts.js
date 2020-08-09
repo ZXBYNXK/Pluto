@@ -25,7 +25,7 @@ router.post("/", [auth, postValidator], async (req, res) => {
       avatar: user.avatar,
       user: req.user.id,
     };
-    post = await post.save();
+    post = await Post.create(post);
     return res.json(post);
   } catch (err) {
     console.error(err.message);
@@ -49,14 +49,14 @@ router.get("/", auth, async (req, res) => {
 // @route GET api/posts/:id
 // @desc  Get post by id
 // @access Private
-router.get("/", auth, async (req, res) => {
+router.get("/:id", auth, async (req, res) => {
   try {
-    const post = await Post.findbyId(req.params.id);
+    const post = await Post.findById(req.params.id);
     if (!post) {
       return res.status(404).json({ msg: "404 Not found" });
     }
 
-    return res.json(posts);
+    return res.json(post);
   } catch (err) {
     console.error(err.message);
     if (err.kind === "ObjectId") {
@@ -71,7 +71,7 @@ router.get("/", auth, async (req, res) => {
 // @access Private
 router.delete("/:id", auth, async (req, res) => {
   try {
-    const post = await Post.findbyId(req.params.id);
+    const post = await Post.findById(req.params.id);
     if (!post) {
       return res.status(404).json({ msg: "404 Not found" });
     }
@@ -102,7 +102,7 @@ router.put("/like/:id", auth, async (req, res) => {
     ) {
       return res.status(400).json({ msg: "Post allready liked." });
     }
-    posts.likes.unshift({ user: req.user.id });
+    post.likes.unshift({ user: req.user.id });
     await post.save();
     return res.json(post.likes);
   } catch (err) {
@@ -172,7 +172,7 @@ router.post("/comment/:id", [auth, postValidator], async (req, res) => {
 // @route POST api/posts/comment/:id/:comment_id
 // @desc  Test Route
 // @access Private
-router.post("/comment/:id/:comment_id", auth, async (req, res) => {
+router.put("/comment/:id/:comment_id", auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     const comment = post.comments.find(

@@ -33,7 +33,6 @@ const educationValidator = [
 // @desc  Get single profile
 // @access Private
 router.get("/me", auth, async (req, res) => {
-  console.log(req.user.id)
   try {
     const profile = await Profile.findOne({
       user: req.user.id,
@@ -51,7 +50,6 @@ router.get("/me", auth, async (req, res) => {
 // @desc  Get all profiles
 // @access Public
 router.get("/user/:id", async (req, res) => {
-  console.log(req.params.id)
   try {
     const profile = await Profile.findOne({
       user: req.params.id,
@@ -166,7 +164,6 @@ router.put("/experience", [auth, expeirenceValidator], async (req, res) => {
   try {
         // TO-DO: remove .save() from the picture.
     let profile = await Profile.findOne({ user: req.user.id });
-    console.log(req.user.id);
     profile.experience.unshift(newExp);
     await profile.save();
     return res.json(profile);
@@ -205,7 +202,6 @@ router.put("/education", [auth, educationValidator], async (req, res) => {
   try {
         // TO-DO: remove .save() from the picture.
     let profile = await Profile.findOne({ user: req.user.id });
-    console.log(profile);
     profile.education.unshift(newEdu);
     await profile.save();
     return res.json(profile);
