@@ -1,9 +1,7 @@
 import axios from 'axios';
-// import store from '../redux';
-// import { LOGOUT } from "../redux/modules/auth";
 
 const api = axios.create({
-  baseURL: 'http:/localhost:5000/api',
+  baseURL: `${process.env.API_ROOT}/api`,
   headers: {
     'Content-Type': 'application/json',
     'access-control-allow-origin': "*"

@@ -17,3 +17,6 @@ handlers:
     static_files: build/index.html
 
     upload: build/index.html
+
+env_variables:
+  API_ROOT: https://pluto-back-end.ue.r.appspot.com
