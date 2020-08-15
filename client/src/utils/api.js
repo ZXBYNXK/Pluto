@@ -3,7 +3,7 @@ import axios from 'axios';
 // import { LOGOUT } from "../redux/modules/auth";
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: 'http:/localhost:5000/api',
   headers: {
     'Content-Type': 'application/json',
     'access-control-allow-origin': "*"
